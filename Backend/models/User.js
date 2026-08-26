@@ -1,24 +1,25 @@
-const mysql = require('mysql2/promise');
-
-const pool = mysql.createPool({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
-});
+const { query } = require('../config/db');
 
 async function findUserByEmail(email) {
-    const [rows] = await pool.query('SELECT * FROM users WHERE email = ?', [email]);
-    return rows[0];
+    const result = await query('SELECT * FROM users WHERE email = $1', [email]);
+    return result.rows[0];
+}
+
+async function findUserById(id) {
+    const result = await query('SELECT id, name, email, role, created_at, updated_at FROM users WHERE id = $1', [id]);
+    return result.rows[0];
 }
 
 async function createUser(name, email, hashedPassword, role) {
-    const [result] = await pool.query(
-        'INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)',
+    const result = await query(
+        'INSERT INTO users (name, email, password, role) VALUES ($1, $2, $3, $4) RETURNING id, name, email, role, created_at, updated_at',
         [name, email, hashedPassword, role]
     );
-    const [rows] = await pool.query('SELECT * FROM users WHERE id = ?', [result.insertId]);
-    return rows[0];
+    return result.rows[0];
 }
 
-module.exports = { findUserByEmail, createUser };
+module.exports = {
+    findUserByEmail,
+    findUserById,
+    createUser,
+};
