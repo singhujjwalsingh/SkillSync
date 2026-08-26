@@ -7,25 +7,13 @@ import {
   Eye, 
   EyeOff, 
   ArrowRight, 
-  GraduationCap, 
-  Building2, 
-  Award, 
-  BarChart3, 
   Layers
 } from 'lucide-react';
-
-const ROLES = [
-  { id: 'student', label: 'Student', icon: GraduationCap },
-  { id: 'industry', label: 'Industry', icon: Building2 },
-  { id: 'academician', label: 'Faculty', icon: Award },
-  { id: 'institution', label: 'University', icon: BarChart3 },
-];
 
 const Login = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const [selectedRole, setSelectedRole] = useState('student');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -33,17 +21,14 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
 
-  const handleRoleChange = (roleId) => {
-    setSelectedRole(roleId);
-    setErrorMsg('');
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMsg('');
     setIsLoading(true);
 
-    const result = await login(email, password, selectedRole);
+    // Backend login does not require a role to authenticate.
+    // Defaulting role argument to 'student' (will be overridden by backend response role on success).
+    const result = await login(email, password, 'student');
     setIsLoading(false);
 
     if (result.success) {
@@ -63,42 +48,12 @@ const Login = () => {
             <Layers className="w-6 h-6" />
           </div>
           <h2 className="text-2xl sm:text-3xl font-extrabold text-[var(--text-primary)] tracking-tight">
-            Welcome Back
+            Sign In
           </h2>
           <p className="text-xs sm:text-sm text-[var(--text-secondary)]">
-            Sign in to access your calibrated SkillSync ecosystem
+            Enter your credentials to access your SkillSync account
           </p>
         </div>
-
-        {/* Neumorphic Role Selector Tab Group */}
-        <div className="space-y-1.5">
-          <label className="text-xs font-semibold text-[var(--text-muted)] uppercase tracking-wider block">
-            Select Your Role
-          </label>
-          <div className="grid grid-cols-4 gap-1.5 p-1.5 neu-inset-sm rounded-2xl">
-            {ROLES.map((r) => {
-              const Icon = r.icon;
-              const isSelected = selectedRole === r.id;
-              return (
-                <button
-                  key={r.id}
-                  type="button"
-                  onClick={() => handleRoleChange(r.id)}
-                  className={`py-2 px-1 rounded-xl text-xs font-semibold flex flex-col items-center justify-center gap-1 transition-all ${
-                    isSelected
-                      ? 'neu-flat text-indigo-500 shadow-md font-bold'
-                      : 'text-[var(--text-muted)] hover:text-[var(--text-primary)]'
-                  }`}
-                >
-                  <Icon className="w-4 h-4" />
-                  <span className="text-[10px] tracking-tight">{r.label}</span>
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
-
 
         {/* Login Form */}
         <form onSubmit={handleSubmit} className="space-y-4 pt-2">
@@ -173,21 +128,19 @@ const Login = () => {
             className="neu-btn-primary w-full py-3 text-sm font-semibold shadow-lg"
           >
             {isLoading ? (
-              <span className="flex items-center gap-2">
+              <span className="flex items-center gap-2 justify-center">
                 <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
                 Authenticating...
               </span>
             ) : (
               <span className="flex items-center justify-center gap-2">
-                <span>Sign In as {ROLES.find(r => r.id === selectedRole)?.label}</span>
+                <span>Sign In</span>
                 <ArrowRight className="w-4 h-4" />
               </span>
             )}
           </button>
 
         </form>
-
-
 
         {/* Signup Redirect */}
         <div className="text-center pt-2 text-xs text-[var(--text-secondary)]">

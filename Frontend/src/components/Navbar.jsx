@@ -1,24 +1,17 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { useTheme } from '../context/ThemeContext';
 import { 
   Layers, 
-  Sun, 
-  Moon, 
-  Laptop, 
   LogOut, 
   ChevronDown, 
   Menu, 
   X, 
-  Sparkles,
-  LayoutDashboard,
-  UserCheck
+  LayoutDashboard
 } from 'lucide-react';
 
 const Navbar = () => {
   const { user, role, logout } = useAuth();
-  const { theme, effectiveTheme, setTheme } = useTheme();
   const navigate = useNavigate();
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -33,9 +26,6 @@ const Navbar = () => {
   const navLinks = [
     { label: 'Home', path: '/' },
     { label: 'Dashboard', path: '/dashboard' },
-    { label: 'Features', path: '/#features' },
-    { label: 'Roles', path: '/#roles' },
-    { label: 'Skill Matrix', path: '/#matrix' },
   ];
 
   return (
@@ -51,9 +41,6 @@ const Navbar = () => {
           <div className="flex flex-col">
             <span className="text-xl font-bold tracking-tight bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">
               SkillSync
-            </span>
-            <span className="text-[10px] font-semibold tracking-widest uppercase text-indigo-400/80 -mt-1 flex items-center gap-1">
-              Neumorphic 2.0 <Sparkles className="w-2.5 h-2.5 text-amber-400 inline animate-pulse" />
             </span>
           </div>
         </Link>
@@ -78,49 +65,8 @@ const Navbar = () => {
           })}
         </div>
 
-        {/* Right Controls: Theme Switcher & Auth */}
+        {/* Right Controls: Auth Only */}
         <div className="hidden md:flex items-center gap-3">
-          {/* Neumorphic 3-Mode Theme Selector (Auto / Light / Dark) */}
-          <div className="neu-tab-group p-1" title={`Theme: ${theme} (Effective: ${effectiveTheme})`}>
-            <button
-              onClick={() => setTheme('auto')}
-              className={`p-1.5 rounded-lg text-xs flex items-center gap-1 transition-all ${
-                theme === 'auto'
-                  ? 'bg-[var(--bg-card)] text-indigo-500 shadow-sm font-semibold'
-                  : 'text-[var(--text-muted)] hover:text-[var(--text-primary)]'
-              }`}
-              title="Auto (System Scheme)"
-            >
-              <Laptop className="w-3.5 h-3.5" />
-              <span className="text-[11px] hidden lg:inline">Auto</span>
-            </button>
-            <button
-              onClick={() => setTheme('light')}
-              className={`p-1.5 rounded-lg text-xs flex items-center gap-1 transition-all ${
-                theme === 'light'
-                  ? 'bg-[var(--bg-card)] text-amber-500 shadow-sm font-semibold'
-                  : 'text-[var(--text-muted)] hover:text-[var(--text-primary)]'
-              }`}
-              title="Light Theme"
-            >
-              <Sun className="w-3.5 h-3.5" />
-              <span className="text-[11px] hidden lg:inline">Light</span>
-            </button>
-            <button
-              onClick={() => setTheme('dark')}
-              className={`p-1.5 rounded-lg text-xs flex items-center gap-1 transition-all ${
-                theme === 'dark'
-                  ? 'bg-[var(--bg-card)] text-indigo-400 shadow-sm font-semibold'
-                  : 'text-[var(--text-muted)] hover:text-[var(--text-primary)]'
-              }`}
-              title="Dark Theme"
-            >
-              <Moon className="w-3.5 h-3.5" />
-              <span className="text-[11px] hidden lg:inline">Dark</span>
-            </button>
-          </div>
-
-          {/* User Auth or CTA Buttons */}
           {user ? (
             <div className="relative">
               <button
@@ -141,7 +87,7 @@ const Navbar = () => {
                 <div className="absolute right-0 mt-2 w-56 neu-flat p-2 shadow-2xl z-50 animate-in fade-in slide-in-from-top-2">
                   <div className="p-3 border-b border-[var(--border-subtle)]">
                     <p className="text-xs text-[var(--text-muted)]">Signed in as</p>
-                    <p className="text-sm font-semibold text-[var(--text-primary)] truncate">{user.email}</p>
+                    <p className="text-sm font-semibold text-[var(--text-primary)] truncate">{user?.email}</p>
                     <span className="inline-block mt-1.5 px-2 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wider bg-indigo-500/15 text-indigo-500">
                       {role}
                     </span>
@@ -187,12 +133,6 @@ const Navbar = () => {
         {/* Mobile menu toggle button */}
         <div className="flex md:hidden items-center gap-2">
           <button
-            onClick={() => setTheme(effectiveTheme === 'dark' ? 'light' : 'dark')}
-            className="neu-icon-btn w-9 h-9"
-          >
-            {effectiveTheme === 'dark' ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-indigo-500" />}
-          </button>
-          <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="neu-icon-btn w-9 h-9"
           >
@@ -220,30 +160,6 @@ const Navbar = () => {
           </div>
 
           <div className="pt-3 border-t border-[var(--border-subtle)] flex flex-col gap-2">
-            <div className="flex items-center justify-between py-1 px-2">
-              <span className="text-xs text-[var(--text-secondary)]">Theme Mode</span>
-              <div className="neu-tab-group p-1">
-                <button
-                  onClick={() => setTheme('auto')}
-                  className={`px-2 py-1 rounded text-xs ${theme === 'auto' ? 'neu-flat text-indigo-500' : 'text-[var(--text-muted)]'}`}
-                >
-                  Auto
-                </button>
-                <button
-                  onClick={() => setTheme('light')}
-                  className={`px-2 py-1 rounded text-xs ${theme === 'light' ? 'neu-flat text-amber-500' : 'text-[var(--text-muted)]'}`}
-                >
-                  Light
-                </button>
-                <button
-                  onClick={() => setTheme('dark')}
-                  className={`px-2 py-1 rounded text-xs ${theme === 'dark' ? 'neu-flat text-indigo-400' : 'text-[var(--text-muted)]'}`}
-                >
-                  Dark
-                </button>
-              </div>
-            </div>
-
             {user ? (
               <button
                 onClick={handleLogout}
