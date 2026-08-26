@@ -84,7 +84,7 @@ async function updateUser(req, res) {
 }
 
 async function getUser(req, res) {
-    //get user implementation
+    res.send({"message":"Hello world"});
 }
 
 async function logoutUser(req, res) {
