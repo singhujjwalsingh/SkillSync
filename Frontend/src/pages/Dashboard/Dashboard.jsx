@@ -166,13 +166,13 @@ const Dashboard = () => {
         <div className="flex items-center gap-4">
           <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 p-[2px] shadow-lg shrink-0">
             <div className="w-full h-full rounded-[14px] flex items-center justify-center bg-slate-900/60 text-white text-xl font-extrabold">
-              {user ? user.name.charAt(0) : 'A'}
+              {user && user.name ? user.name.charAt(0) : (user?.email ? user.email.charAt(0).toUpperCase() : 'U')}
             </div>
           </div>
           <div className="space-y-1">
             <div className="flex items-center gap-2 flex-wrap">
               <h1 className="text-xl sm:text-2xl font-black text-[var(--text-primary)]">
-                Welcome back, {user ? user.name : 'Aarav Mehta'}
+                Welcome back, {user ? (user.name || user.email) : 'User'}
               </h1>
               <span className="neu-badge text-indigo-500 uppercase text-[10px]">
                 {activePerspective} Verified

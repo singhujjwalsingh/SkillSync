@@ -128,10 +128,10 @@ const Navbar = () => {
                 className="neu-btn px-3.5 py-2 text-sm flex items-center gap-2"
               >
                 <div className="w-6 h-6 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-500 text-white flex items-center justify-center text-xs font-bold shadow-xs">
-                  {user.name.charAt(0)}
+                  {(user?.name || user?.email || 'User').charAt(0)}
                 </div>
                 <div className="text-left hidden sm:block">
-                  <p className="text-xs font-semibold leading-none truncate max-w-[100px]">{user.name}</p>
+                  <p className="text-xs font-semibold leading-none truncate max-w-[100px]">{user?.name || user?.email || 'User'}</p>
                   <p className="text-[10px] text-[var(--text-muted)] capitalize">{role || 'User'}</p>
                 </div>
                 <ChevronDown className="w-3.5 h-3.5 text-[var(--text-muted)]" />
@@ -250,7 +250,7 @@ const Navbar = () => {
                 className="w-full flex items-center justify-center gap-2 p-2.5 rounded-xl text-sm text-rose-500 font-medium neu-inset-sm"
               >
                 <LogOut className="w-4 h-4" />
-                Sign Out ({user.name})
+                Sign Out ({user?.name || user?.email || 'User'})
               </button>
             ) : (
               <div className="grid grid-cols-2 gap-2 pt-2">

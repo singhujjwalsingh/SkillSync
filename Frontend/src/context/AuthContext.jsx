@@ -79,19 +79,7 @@ export const AuthProvider = ({ children }) => {
       const data = await response.json();
 
       if (!response.ok) {
-        // If demo credentials or user doesn't exist yet on Neon, auto-register or handle demo
-        if (password === 'password123' || email.includes('@skillsync.') || email.includes('@tcs.') || email.includes('@nit.') || email.includes('@iitb.')) {
-          let name = 'User';
-          if (selectedRole === 'student') name = 'Aarav Mehta';
-          else if (selectedRole === 'industry') name = 'TCS Careers';
-          else if (selectedRole === 'academician') name = 'Dr. Rajesh Sharma';
-          else if (selectedRole === 'institution') name = 'IIT Bombay Admin';
-
-          const regRes = await register(name, email, password, selectedRole);
-          if (regRes.success) return regRes;
-        }
-
-        throw new Error(data.message || 'Invalid credentials');
+        throw new Error(data.message || 'Invalid email or password');
       }
 
       const userData = data.user || { email, role: selectedRole };

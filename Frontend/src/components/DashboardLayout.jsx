@@ -114,11 +114,11 @@ const DashboardLayout = ({ children }) => {
               <div className="p-3 bg-slate-950/60 border border-slate-900 rounded-2xl flex flex-col gap-1">
                 <div className="flex items-center gap-2">
                   <div className="w-6 h-6 rounded-full bg-purple-500/10 flex items-center justify-center text-purple-400 font-bold text-[10px]">
-                    {user.name.charAt(0)}
+                    {(user?.name || user?.email || 'User').charAt(0)}
                   </div>
-                  <span className="text-xs font-semibold text-slate-300 truncate max-w-[120px]">{user.name}</span>
+                  <span className="text-xs font-semibold text-slate-300 truncate max-w-[120px]">{user?.name || user?.email || 'User'}</span>
                 </div>
-                <div className="text-[10px] text-slate-500 font-mono truncate">{user.email}</div>
+                <div className="text-[10px] text-slate-500 font-mono truncate">{user?.email}</div>
               </div>
             )}
             

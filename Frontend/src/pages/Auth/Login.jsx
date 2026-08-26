@@ -7,21 +7,18 @@ import {
   Eye, 
   EyeOff, 
   ArrowRight, 
-  Sparkles, 
   GraduationCap, 
   Building2, 
   Award, 
   BarChart3, 
-  Fingerprint,
-  Globe,
   Layers
 } from 'lucide-react';
 
 const ROLES = [
-  { id: 'student', label: 'Student', icon: GraduationCap, defaultEmail: 'aarav.mehta@skillsync.edu' },
-  { id: 'industry', label: 'Industry', icon: Building2, defaultEmail: 'recruiter@tcs.careers' },
-  { id: 'academician', label: 'Faculty', icon: Award, defaultEmail: 'dr.sharma@nit.edu' },
-  { id: 'institution', label: 'University', icon: BarChart3, defaultEmail: 'admin@iitb.ac.in' },
+  { id: 'student', label: 'Student', icon: GraduationCap },
+  { id: 'industry', label: 'Industry', icon: Building2 },
+  { id: 'academician', label: 'Faculty', icon: Award },
+  { id: 'institution', label: 'University', icon: BarChart3 },
 ];
 
 const Login = () => {
@@ -29,8 +26,8 @@ const Login = () => {
   const navigate = useNavigate();
 
   const [selectedRole, setSelectedRole] = useState('student');
-  const [email, setEmail] = useState('aarav.mehta@skillsync.edu');
-  const [password, setPassword] = useState('password123');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
@@ -39,10 +36,6 @@ const Login = () => {
   const handleRoleChange = (roleId) => {
     setSelectedRole(roleId);
     setErrorMsg('');
-    const roleObj = ROLES.find(r => r.id === roleId);
-    if (roleObj) {
-      setEmail(roleObj.defaultEmail);
-    }
   };
 
   const handleSubmit = async (e) => {
@@ -57,21 +50,6 @@ const Login = () => {
       navigate('/dashboard');
     } else {
       setErrorMsg(result.error || 'Invalid email or password');
-    }
-  };
-
-  const handleQuickDemoLogin = async (roleId) => {
-    setErrorMsg('');
-    const roleObj = ROLES.find(r => r.id === roleId);
-    if (roleObj) {
-      setIsLoading(true);
-      const result = await login(roleObj.defaultEmail, 'password123', roleId);
-      setIsLoading(false);
-      if (result.success) {
-        navigate('/dashboard');
-      } else {
-        setErrorMsg(result.error || 'Failed to authenticate');
-      }
     }
   };
 
@@ -120,27 +98,7 @@ const Login = () => {
           </div>
         </div>
 
-        {/* Quick Demo 1-Click Pills */}
-        <div className="space-y-1.5">
-          <div className="flex items-center justify-between text-[11px] text-[var(--text-muted)]">
-            <span>Instant Demo Access:</span>
-            <span className="text-indigo-400 font-medium flex items-center gap-1">
-              <Sparkles className="w-3 h-3 text-amber-400" /> 1-Click Login
-            </span>
-          </div>
-          <div className="flex flex-wrap gap-1.5">
-            {ROLES.map((r) => (
-              <button
-                key={r.id}
-                type="button"
-                onClick={() => handleQuickDemoLogin(r.id)}
-                className="neu-pill text-[10px] py-1 px-2.5 hover:text-indigo-500"
-              >
-                {r.label} Demo
-              </button>
-            ))}
-          </div>
-        </div>
+
 
         {/* Login Form */}
         <form onSubmit={handleSubmit} className="space-y-4 pt-2">
@@ -171,7 +129,7 @@ const Login = () => {
           <div className="space-y-1">
             <div className="flex items-center justify-between">
               <label className="text-xs font-semibold text-[var(--text-secondary)]">Password</label>
-              <a href="#forgot" onClick={(e) => { e.preventDefault(); alert("Demo mode: password is 'password123'"); }} className="text-[11px] text-indigo-500 hover:underline">
+              <a href="#forgot" onClick={(e) => { e.preventDefault(); alert("Please contact support to reset your password."); }} className="text-[11px] text-indigo-500 hover:underline">
                 Forgot password?
               </a>
             </div>
@@ -229,34 +187,7 @@ const Login = () => {
 
         </form>
 
-        {/* Biometric & Social Login */}
-        <div className="space-y-3 pt-2 text-center">
-          <div className="relative flex items-center justify-center">
-            <div className="border-t border-[var(--border-subtle)] w-full absolute" />
-            <span className="relative px-3 text-[11px] text-[var(--text-muted)] bg-[var(--bg-card)]">
-              Or continue with biometric / Single Sign-On
-            </span>
-          </div>
 
-          <div className="flex items-center justify-center gap-3">
-            <button
-              type="button"
-              onClick={() => handleQuickDemoLogin('student')}
-              className="neu-icon-btn"
-              title="Biometric Passkey"
-            >
-              <Fingerprint className="w-4 h-4 text-indigo-500" />
-            </button>
-            <button
-              type="button"
-              onClick={() => handleQuickDemoLogin('industry')}
-              className="neu-icon-btn"
-              title="Enterprise Single Sign-On"
-            >
-              <Globe className="w-4 h-4 text-purple-500" />
-            </button>
-          </div>
-        </div>
 
         {/* Signup Redirect */}
         <div className="text-center pt-2 text-xs text-[var(--text-secondary)]">
