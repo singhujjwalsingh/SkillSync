@@ -47,6 +47,7 @@ const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [termsAgreed, setTermsAgreed] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
 
   const toggleSkill = (skill) => {
     if (selectedSkills.includes(skill)) {
@@ -72,16 +73,20 @@ const Signup = () => {
   const strengthLabels = ['Too Weak', 'Fair', 'Good', 'Strong', 'Ultra Strong'];
   const strengthColors = ['bg-rose-500', 'bg-amber-500', 'bg-yellow-500', 'bg-emerald-500', 'bg-indigo-500'];
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!name || !email || !password) return;
-
+    setErrorMsg('');
     setIsLoading(true);
-    setTimeout(() => {
-      register(name, email, password, role);
-      setIsLoading(false);
+
+    const result = await register(name, email, password, role);
+    setIsLoading(false);
+
+    if (result.success) {
       navigate('/dashboard');
-    }, 600);
+    } else {
+      setErrorMsg(result.error || 'Registration failed. Please try again.');
+    }
   };
 
   return (
@@ -103,6 +108,12 @@ const Signup = () => {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           
+          {errorMsg && (
+            <div className="neu-inset-sm p-3.5 text-xs text-rose-500 font-medium rounded-xl border border-rose-500/20 bg-rose-500/10 animate-in fade-in">
+              ⚠️ {errorMsg}
+            </div>
+          )}
+
           {/* Step 1: Role Selection Matrix */}
           <div className="space-y-2">
             <label className="text-xs font-bold text-[var(--text-primary)] uppercase tracking-wider block">

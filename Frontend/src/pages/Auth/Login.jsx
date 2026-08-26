@@ -34,35 +34,44 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
 
   const handleRoleChange = (roleId) => {
     setSelectedRole(roleId);
+    setErrorMsg('');
     const roleObj = ROLES.find(r => r.id === roleId);
     if (roleObj) {
       setEmail(roleObj.defaultEmail);
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrorMsg('');
     setIsLoading(true);
 
-    setTimeout(() => {
-      login(email, password, selectedRole);
-      setIsLoading(false);
+    const result = await login(email, password, selectedRole);
+    setIsLoading(false);
+
+    if (result.success) {
       navigate('/dashboard');
-    }, 600);
+    } else {
+      setErrorMsg(result.error || 'Invalid email or password');
+    }
   };
 
-  const handleQuickDemoLogin = (roleId) => {
+  const handleQuickDemoLogin = async (roleId) => {
+    setErrorMsg('');
     const roleObj = ROLES.find(r => r.id === roleId);
     if (roleObj) {
       setIsLoading(true);
-      setTimeout(() => {
-        login(roleObj.defaultEmail, 'password123', roleId);
-        setIsLoading(false);
+      const result = await login(roleObj.defaultEmail, 'password123', roleId);
+      setIsLoading(false);
+      if (result.success) {
         navigate('/dashboard');
-      }, 400);
+      } else {
+        setErrorMsg(result.error || 'Failed to authenticate');
+      }
     }
   };
 
@@ -136,6 +145,12 @@ const Login = () => {
         {/* Login Form */}
         <form onSubmit={handleSubmit} className="space-y-4 pt-2">
           
+          {errorMsg && (
+            <div className="neu-inset-sm p-3 text-xs text-rose-500 font-medium rounded-xl border border-rose-500/20 bg-rose-500/10 animate-in fade-in">
+              ⚠️ {errorMsg}
+            </div>
+          )}
+
           {/* Email Field */}
           <div className="space-y-1">
             <label className="text-xs font-semibold text-[var(--text-secondary)]">Email Address</label>

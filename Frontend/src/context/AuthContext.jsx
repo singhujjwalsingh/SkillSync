@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 
 const AuthContext = createContext(null);
 
@@ -21,54 +21,126 @@ export const AuthProvider = ({ children }) => {
     return saved || null;
   });
 
-  const login = (email, password, role) => {
-    // Mock user creation based on role
-    let name = 'User';
-    if (role === 'student') name = 'Aarav Mehta';
-    else if (role === 'industry') name = 'TCS Careers / N. Chandrasekaran';
-    else if (role === 'academician') name = 'Dr. Rajesh Sharma';
-    else if (role === 'institution') name = 'IIT Bombay Admin';
+  const [token, setToken] = useState(() => {
+    return localStorage.getItem('skillsync_token') || null;
+  });
 
-    const mockUser = {
-      id: Math.random().toString(36).substring(2, 9),
-      email,
-      name,
-      role
-    };
+  const register = async (name, email, password, role = 'student') => {
+    try {
+      const response = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, password, role })
+      });
 
-    setUser(mockUser);
-    setActiveRole(role);
-    localStorage.setItem('skillsync_user', JSON.stringify(mockUser));
-    localStorage.setItem('skillsync_role', role);
-    return mockUser;
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Registration failed');
+      }
+
+      const userData = data.user || { name, email, role };
+      const authToken = data.token;
+
+      setUser(userData);
+      setActiveRole(userData.role || role);
+      setToken(authToken);
+
+      localStorage.setItem('skillsync_user', JSON.stringify(userData));
+      localStorage.setItem('skillsync_role', userData.role || role);
+      if (authToken) localStorage.setItem('skillsync_token', authToken);
+
+      return { success: true, user: userData };
+    } catch (err) {
+      console.warn('Backend register error, fallback to local state if offline:', err.message);
+      
+      // If server is offline or connection fails, allow graceful local fallback
+      if (err.message.includes('Failed to fetch') || err.message.includes('NetworkError')) {
+        const mockUser = { id: Math.random().toString(36).substring(2, 9), name, email, role };
+        setUser(mockUser);
+        setActiveRole(role);
+        localStorage.setItem('skillsync_user', JSON.stringify(mockUser));
+        localStorage.setItem('skillsync_role', role);
+        return { success: true, user: mockUser };
+      }
+
+      return { success: false, error: err.message };
+    }
   };
 
-  const register = (name, email, password, role) => {
-    const mockUser = {
-      id: Math.random().toString(36).substring(2, 9),
-      email,
-      name,
-      role
-    };
+  const login = async (email, password, selectedRole = 'student') => {
+    try {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
 
-    setUser(mockUser);
-    setActiveRole(role);
-    localStorage.setItem('skillsync_user', JSON.stringify(mockUser));
-    localStorage.setItem('skillsync_role', role);
-    return mockUser;
+      const data = await response.json();
+
+      if (!response.ok) {
+        // If demo credentials or user doesn't exist yet on Neon, auto-register or handle demo
+        if (password === 'password123' || email.includes('@skillsync.') || email.includes('@tcs.') || email.includes('@nit.') || email.includes('@iitb.')) {
+          let name = 'User';
+          if (selectedRole === 'student') name = 'Aarav Mehta';
+          else if (selectedRole === 'industry') name = 'TCS Careers';
+          else if (selectedRole === 'academician') name = 'Dr. Rajesh Sharma';
+          else if (selectedRole === 'institution') name = 'IIT Bombay Admin';
+
+          const regRes = await register(name, email, password, selectedRole);
+          if (regRes.success) return regRes;
+        }
+
+        throw new Error(data.message || 'Invalid credentials');
+      }
+
+      const userData = data.user || { email, role: selectedRole };
+      const authToken = data.token;
+
+      setUser(userData);
+      setActiveRole(userData.role || selectedRole);
+      setToken(authToken);
+
+      localStorage.setItem('skillsync_user', JSON.stringify(userData));
+      localStorage.setItem('skillsync_role', userData.role || selectedRole);
+      if (authToken) localStorage.setItem('skillsync_token', authToken);
+
+      return { success: true, user: userData };
+    } catch (err) {
+      console.warn('Backend login error:', err.message);
+
+      // Graceful demo handling if server is unreachable
+      if (err.message.includes('Failed to fetch') || err.message.includes('NetworkError')) {
+        let name = 'User';
+        if (selectedRole === 'student') name = 'Aarav Mehta';
+        else if (selectedRole === 'industry') name = 'TCS Careers';
+        else if (selectedRole === 'academician') name = 'Dr. Rajesh Sharma';
+        else if (selectedRole === 'institution') name = 'IIT Bombay Admin';
+
+        const mockUser = { id: Math.random().toString(36).substring(2, 9), email, name, role: selectedRole };
+        setUser(mockUser);
+        setActiveRole(selectedRole);
+        localStorage.setItem('skillsync_user', JSON.stringify(mockUser));
+        localStorage.setItem('skillsync_role', selectedRole);
+        return { success: true, user: mockUser };
+      }
+
+      return { success: false, error: err.message };
+    }
   };
 
   const logout = () => {
     setUser(null);
     setActiveRole(null);
+    setToken(null);
     localStorage.removeItem('skillsync_user');
     localStorage.removeItem('skillsync_role');
+    localStorage.removeItem('skillsync_token');
   };
 
   const switchRole = (role) => {
     if (!user) {
-      // If not logged in, log in with a default name for that role
-      login(`${role}@skillsync.dev`, 'password', role);
+      login(`${role}@skillsync.dev`, 'password123', role);
     } else {
       const updatedUser = { ...user, role };
       setUser(updatedUser);
@@ -79,7 +151,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, role: activeRole, login, register, logout, switchRole }}>
+    <AuthContext.Provider value={{ user, role: activeRole, token, login, register, logout, switchRole }}>
       {children}
     </AuthContext.Provider>
   );
