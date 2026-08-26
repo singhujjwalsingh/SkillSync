@@ -67,4 +67,40 @@ async function loginUser(req, res) {
     }
 }
 
-module.exports = { registerUser, loginUser };
+async function forgotPassword(req, res) {
+    //forget password implementation
+}
+
+async function changePassword(req, res) {
+    //change password implementation
+}
+
+async function currentUser(req, res) {
+    //current user implementation
+}
+
+async function updateUser(req, res) {
+    //update user implementation
+}
+
+async function getUser(req, res) {
+    //get user implementation
+}
+
+async function logoutUser(req, res) {
+    //logout user implementation
+}
+
+async function refreshToken(req, res) {
+    //refresh token implementation
+}
+
+async function verifyEmail(req, res) {
+    //verify email implementation
+}
+
+async function resendVerificationEmail(req, res) {
+    //resend verification email implementation
+}
+
+module.exports = { registerUser, loginUser, logoutUser, forgotPassword, changePassword, currentUser, updateUser, getUser, refreshToken, verifyEmail, resendVerificationEmail };
