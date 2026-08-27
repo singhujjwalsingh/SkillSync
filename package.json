@@ -1,0 +1,11 @@
+{
+  "name": "skillsync-workspace",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "npm --prefix Frontend run dev",
+    "build": "npm --prefix Frontend run build",
+    "preview": "npm --prefix Frontend run preview",
+    "lint": "npm --prefix Frontend run lint"
+  }
+}
