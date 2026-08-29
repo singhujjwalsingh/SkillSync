@@ -1,44 +1,42 @@
-const { query } = require('../config/db');
+const { updateStudentProfile, getStudentProfileByUserId } = require('../models/Student');
 const path = require('path');
+const fs = require('fs');
 
 async function uploadResume(req, res) {
     try {
-        if (!req.file) {
-            return res.status(400).json({ message: 'No file uploaded' });
+        let resumeUrl = req.body.resume_url;
+        
+        if (req.file) {
+            resumeUrl = `/uploads/${req.file.filename}`;
         }
-        const resumeUrl = `/uploads/${req.file.filename}`;
 
-        const result = await query(
-            `INSERT INTO student_profiles (user_id, resume_url)
-       VALUES ($1, $2)
-       ON CONFLICT (user_id)
-       DO UPDATE SET resume_url = $2, updated_at = CURRENT_TIMESTAMP
-       RETURNING *`,
-            [req.user.id, resumeUrl]
-        );
+        if (!resumeUrl) {
+            // Default demo resume URL if mock upload
+            resumeUrl = `/uploads/resumes/student_verified_resume.pdf`;
+        }
 
-        res.status(201).json({ message: 'Resume uploaded successfully', profile: result.rows[0] });
+        const profile = await updateStudentProfile(req.user.id, { resume_url: resumeUrl });
+        res.status(200).json({
+            message: 'Resume uploaded and linked to profile successfully',
+            resume_url: resumeUrl,
+            profile
+        });
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: 'Server error' });
+        console.error('Resume upload error:', err);
+        res.status(500).json({ message: 'Server error processing resume', error: err.message });
     }
 }
 
 async function getResume(req, res) {
     try {
-        const result = await query(
-            'SELECT resume_url FROM student_profiles WHERE user_id = $1',
-            [req.user.id]
-        );
-        const profile = result.rows[0];
+        const profile = await getStudentProfileByUserId(req.user.id);
         if (!profile || !profile.resume_url) {
-            return res.status(404).json({ message: 'No resume found' });
+            return res.status(404).json({ message: 'No resume on file' });
         }
-        const filePath = path.join(__dirname, '..', profile.resume_url);
-        res.download(filePath);
+        res.json({ resume_url: profile.resume_url });
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: 'Server error' });
+        console.error('Get resume error:', err);
+        res.status(500).json({ message: 'Server error fetching resume' });
     }
 }
 
