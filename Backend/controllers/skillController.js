@@ -1,55 +1,53 @@
-const {
-    addSkillToStudent,
-    getStudentSkills,
-    updateStudentSkill,
-    deleteStudentSkill,
-} = require('../models/Skill');
+const { getAllSkills, searchSkills, addSkill } = require('../models/Skill');
 
-async function addSkill(req, res) {
+async function getSkills(req, res) {
     try {
-        const { skillName, proficiency } = req.body;
-        if (!skillName) {
-            return res.status(400).json({ message: 'skillName is required' });
+        const { category, search } = req.query;
+        let skills = [];
+        if (search) {
+            skills = await searchSkills(search);
+        } else {
+            skills = await getAllSkills();
         }
-        const skill = await addSkillToStudent(req.user.id, skillName, proficiency || null);
-        res.status(201).json(skill);
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: 'Server error' });
-    }
-}
 
-async function getMySkills(req, res) {
-    try {
-        const skills = await getStudentSkills(req.user.id);
+        if (category) {
+            skills = skills.filter(s => s.category.toLowerCase() === category.toLowerCase());
+        }
+
+        // Group by category for convenience if requested
+        if (req.query.grouped === 'true') {
+            const grouped = {};
+            skills.forEach(s => {
+                const cat = s.category || 'Other';
+                if (!grouped[cat]) grouped[cat] = [];
+                grouped[cat].push(s);
+            });
+            return res.json({ categories: grouped, total: skills.length });
+        }
+
         res.json(skills);
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: 'Server error' });
+        console.error('Get skills error:', err);
+        res.status(500).json({ message: 'Server error retrieving skills taxonomy', error: err.message });
     }
 }
 
-async function editSkill(req, res) {
+async function createSkill(req, res) {
     try {
-        const { proficiency } = req.body;
-        const updated = await updateStudentSkill(req.params.id, req.user.id, proficiency);
-        if (!updated) return res.status(404).json({ message: 'Skill not found' });
-        res.json(updated);
+        const { name, category, aliases } = req.body;
+        if (!name || !name.trim()) {
+            return res.status(400).json({ message: 'Skill name is required' });
+        }
+
+        const skill = await addSkill(name, category || 'General', Array.isArray(aliases) ? aliases : []);
+        res.status(201).json(skill);
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: 'Server error' });
+        console.error('Create skill error:', err);
+        res.status(500).json({ message: 'Server error adding skill', error: err.message });
     }
 }
 
-async function removeSkill(req, res) {
-    try {
-        const deleted = await deleteStudentSkill(req.params.id, req.user.id);
-        if (!deleted) return res.status(404).json({ message: 'Skill not found' });
-        res.json({ message: 'Skill deleted' });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: 'Server error' });
-    }
-}
-
-module.exports = { addSkill, getMySkills, editSkill, removeSkill };
+module.exports = {
+    getSkills,
+    createSkill
+};

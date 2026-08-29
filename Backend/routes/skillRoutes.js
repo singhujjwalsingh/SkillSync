@@ -1,11 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const { verifyToken } = require('../middleware/authMiddleware');
-const { addSkill, getMySkills, editSkill, removeSkill } = require('../controllers/skillController');
+const { getSkills, createSkill } = require('../controllers/skillController');
 
-router.post('/', verifyToken, addSkill);
-router.get('/', verifyToken, getMySkills);
-router.put('/:id', verifyToken, editSkill);
-router.delete('/:id', verifyToken, removeSkill);
+router.get('/', getSkills);
+router.get('/search', getSkills);
+router.post('/', createSkill);
 
 module.exports = router;
