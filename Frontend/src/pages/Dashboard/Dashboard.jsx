@@ -1,18 +1,34 @@
 import React from 'react';
 import { useAuth } from '../../context/AuthContext';
+import { Navigate } from 'react-router-dom';
+import StudentDashboard from '../Student/StudentDashboard';
+import RecruiterDashboard from '../Recruiter/RecruiterDashboard';
+import TpoDashboard from '../TPO/TpoDashboard';
 
 const Dashboard = () => {
-  const { user } = useAuth();
-  
-  return (
-    <div className="relative z-10 min-h-[60vh] flex items-center justify-center px-4">
-      <div className="neu-flat p-10 rounded-3xl text-center max-w-md w-full">
-        <h1 className="text-3xl font-black text-[var(--text-primary)]">
-          Hello {user?.name || user?.email || 'User'}
-        </h1>
-      </div>
-    </div>
-  );
+  const { user, role } = useAuth();
+
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+
+  // Normalize role
+  const effectiveRole = (role || user.role || 'student').toLowerCase();
+
+  if (effectiveRole === 'student') {
+    return <StudentDashboard />;
+  }
+
+  if (effectiveRole === 'recruiter' || effectiveRole === 'industry') {
+    return <RecruiterDashboard />;
+  }
+
+  if (effectiveRole === 'college_tpo' || effectiveRole === 'institution' || effectiveRole === 'tpo') {
+    return <TpoDashboard />;
+  }
+
+  // Fallback default
+  return <StudentDashboard />;
 };
 
 export default Dashboard;

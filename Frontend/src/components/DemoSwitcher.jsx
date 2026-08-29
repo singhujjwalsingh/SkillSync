@@ -1,89 +1,101 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { Settings, User, Briefcase, GraduationCap, School, LogOut, ChevronUp, ChevronDown } from 'lucide-react';
+import { Award, Briefcase, GraduationCap, Sparkles, ChevronUp, ChevronDown } from 'lucide-react';
+
+const DEMO_ACCOUNTS = [
+  {
+    role: 'student',
+    name: 'Aarav Sharma (Student)',
+    email: 'student@skillsync.edu',
+    password: 'password123',
+    icon: Award,
+    color: 'bg-indigo-600'
+  },
+  {
+    role: 'recruiter',
+    name: 'Nexus Cloud (Recruiter)',
+    email: 'recruiter@skillsync.io',
+    password: 'password123',
+    icon: Briefcase,
+    color: 'bg-teal-600'
+  },
+  {
+    role: 'college_tpo',
+    name: 'NIT Delhi (TPO Admin)',
+    email: 'tpo@skillsync.edu',
+    password: 'password123',
+    icon: GraduationCap,
+    color: 'bg-purple-600'
+  }
+];
 
 const DemoSwitcher = () => {
-  const { user, role, switchRole, logout } = useAuth();
-  const [isOpen, setIsOpen] = useState(false);
+  const { login, role } = useAuth();
   const navigate = useNavigate();
+  const [isOpen, setIsOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const roles = [
-    { id: 'student', label: 'Student', icon: User, path: '/student/dashboard', color: 'text-blue-400 bg-blue-500/10' },
-    { id: 'industry', label: 'Industry Recruiter', icon: Briefcase, path: '/industry/dashboard', color: 'text-emerald-400 bg-emerald-500/10' },
-    { id: 'academician', label: 'Academician', icon: GraduationCap, path: '/academic/dashboard', color: 'text-amber-400 bg-amber-500/10' },
-    { id: 'institution', label: 'Institution Admin', icon: School, path: '/institution/dashboard', color: 'text-purple-400 bg-purple-500/10' },
-  ];
-
-  const handleRoleChange = (roleId, path) => {
-    switchRole(roleId);
-    navigate(path);
+  const handleSwitch = async (account) => {
+    setLoading(true);
+    await login(account.email, account.password, account.role);
+    setLoading(false);
     setIsOpen(false);
-  };
-
-  const handleLogout = () => {
-    logout();
-    navigate('/');
-    setIsOpen(false);
+    navigate('/dashboard');
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-50">
-      {/* Toggle Button */}
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 px-4 py-3 bg-slate-900/90 text-white rounded-full border border-slate-700/80 shadow-2xl hover:bg-slate-800 transition-all duration-300 font-medium text-sm glassmorphism"
-      >
-        <Settings className={`w-4 h-4 text-purple-400 ${isOpen ? 'animate-spin' : ''}`} />
-        <span>Demo Panel</span>
-        {isOpen ? <ChevronDown className="w-4 h-4 text-slate-400" /> : <ChevronUp className="w-4 h-4 text-slate-400" />}
-      </button>
-
-      {/* Dropdown Menu */}
+    <div className="fixed bottom-5 right-5 z-50 flex flex-col items-end gap-2">
       {isOpen && (
-        <div className="absolute bottom-16 right-0 w-64 p-4 rounded-2xl bg-slate-900/95 border border-slate-700/85 shadow-2xl flex flex-col gap-2 glassmorphism animate-in fade-in slide-in-from-bottom-4 duration-200">
-          <div className="pb-2 border-b border-slate-800">
-            <h4 className="font-semibold text-slate-200 text-sm">Switch User Role</h4>
-            <p className="text-[11px] text-slate-400 mt-0.5">Toggle to view different workflows</p>
+        <div className="neu-flat p-3 rounded-2xl shadow-2xl flex flex-col gap-2 w-64 bg-[var(--bg-main)] animate-scale-up border border-[var(--border-subtle)]">
+          <div className="flex items-center justify-between pb-2 border-b border-[var(--border-subtle)]">
+            <span className="text-[10px] uppercase font-black tracking-wider text-[var(--text-muted)] flex items-center gap-1">
+              <Sparkles className="w-3.5 h-3.5 text-indigo-500" />
+              SIH Demo Persona Switcher
+            </span>
           </div>
 
-          <div className="flex flex-col gap-1 mt-1">
-            {roles.map((r) => {
-              const Icon = r.icon;
-              const isActive = role === r.id;
+          <div className="flex flex-col gap-1.5">
+            {DEMO_ACCOUNTS.map(acc => {
+              const isActive = role === acc.role;
+              const Icon = acc.icon;
               return (
                 <button
-                  key={r.id}
-                  onClick={() => handleRoleChange(r.id, r.path)}
-                  className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-all duration-200 ${
+                  key={acc.role}
+                  disabled={loading}
+                  onClick={() => handleSwitch(acc)}
+                  className={`p-2.5 rounded-xl text-left text-xs font-bold flex items-center justify-between transition-all ${
                     isActive
-                      ? 'bg-purple-600 text-white shadow-md shadow-purple-600/25'
-                      : 'text-slate-300 hover:bg-slate-800 hover:text-white'
+                      ? 'neu-inset text-indigo-600 dark:text-indigo-400 font-extrabold'
+                      : 'neu-btn text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
                   }`}
                 >
                   <div className="flex items-center gap-2">
-                    <span className={`p-1 rounded-lg ${isActive ? 'bg-white/10 text-white' : r.color}`}>
-                      <Icon className="w-3.5 h-3.5" />
-                    </span>
-                    <span>{r.label}</span>
+                    <div className={`w-5 h-5 rounded-lg text-white flex items-center justify-center ${acc.color}`}>
+                      <Icon className="w-3 h-3" />
+                    </div>
+                    <span className="truncate">{acc.name}</span>
                   </div>
-                  {isActive && <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />}
+                  {isActive && <span className="text-[10px] text-emerald-500 font-black">ACTIVE</span>}
                 </button>
               );
             })}
           </div>
-
-          {user && (
-            <button
-              onClick={handleLogout}
-              className="w-full flex items-center gap-2 px-3 py-2 mt-2 rounded-xl text-xs font-medium text-rose-400 hover:bg-rose-500/10 transition-all duration-200 border border-transparent hover:border-rose-500/20"
-            >
-              <LogOut className="w-3.5 h-3.5" />
-              <span>Log Out (Clear Session)</span>
-            </button>
-          )}
         </div>
       )}
+
+      {/* Floating Pill Trigger */}
+      <button
+        type="button"
+        onClick={() => setIsOpen(!isOpen)}
+        className="px-4 py-2 rounded-2xl neu-flat text-xs font-bold text-[var(--text-primary)] flex items-center gap-2 hover:scale-105 transition-all shadow-xl bg-[var(--bg-main)] cursor-pointer"
+      >
+        <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+        <span className="font-extrabold text-indigo-600 dark:text-indigo-400 uppercase tracking-wide">
+          {role || 'Demo'}
+        </span>
+        {isOpen ? <ChevronDown className="w-3.5 h-3.5" /> : <ChevronUp className="w-3.5 h-3.5" />}
+      </button>
     </div>
   );
 };
