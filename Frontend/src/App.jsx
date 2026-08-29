@@ -5,6 +5,7 @@ import { ThemeProvider } from './context/ThemeContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import DemoSwitcher from './components/DemoSwitcher';
+import WaveBackground from './components/WaveBackground';
 
 // Core Pages
 import HomePage from './pages/Home/HomePage';
@@ -35,18 +36,14 @@ function App() {
     <ThemeProvider>
       <AuthProvider>
         <Router>
-          {/* Creative Soft Ambient Background with Oversized Orbs */}
-          <div className="soft-ambient-bg" aria-hidden="true">
-            <div className="soft-orb soft-orb-1" />
-            <div className="soft-orb soft-orb-2" />
-            <div className="soft-orb soft-orb-3" />
-          </div>
+          {/* Scroll-Reactive Fluid Glass Wave Background */}
+          <WaveBackground />
 
           {/* Main App Container */}
-          <div className="relative min-h-screen flex flex-col justify-between selection:bg-indigo-500/20 selection:text-indigo-400">
+          <div className="relative min-h-screen flex flex-col justify-between selection:bg-indigo-500/20 selection:text-indigo-600">
             <Navbar />
             
-            <main className="flex-1 w-full">
+            <main className="flex-1 w-full relative z-10">
               <Routes>
                 {/* Public & Shared Routes */}
                 <Route path="/" element={<HomePage />} />

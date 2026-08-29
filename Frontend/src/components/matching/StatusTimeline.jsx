@@ -1,5 +1,5 @@
 import React from 'react';
-import { CheckCircle2, Clock, Calendar, Award, XCircle, ChevronRight } from 'lucide-react';
+import { CheckCircle2, Clock, Calendar, Award, XCircle } from 'lucide-react';
 
 const STAGES = [
   { key: 'applied', label: 'Applied', icon: Clock },
@@ -74,46 +74,53 @@ const StatusTimeline = ({
     );
   }
 
-  // Horizontal Stepper
+  // Horizontal Stepper with Clean Relative Alignment (No Overlap)
   return (
-    <div className={`w-full flex items-center justify-between relative py-4 ${className}`}>
-      {STAGES.map((stage, idx) => {
-        const isDone = !isRejected && idx <= activeIndex;
-        const isCurrent = !isRejected && idx === activeIndex;
-        const Icon = stage.icon;
+    <div className={`w-full py-4 relative ${className}`}>
+      {/* Background connector track */}
+      <div className="absolute top-[28px] left-[10%] right-[10%] h-1.5 rounded-full neu-inset overflow-hidden -z-0">
+        <div
+          className="h-full bg-emerald-500 transition-all duration-700 ease-out"
+          style={{
+            width: isRejected
+              ? '0%'
+              : activeIndex === 0
+              ? '0%'
+              : activeIndex === 1
+              ? '33.3%'
+              : activeIndex === 2
+              ? '66.6%'
+              : '100%'
+          }}
+        />
+      </div>
 
-        return (
-          <React.Fragment key={stage.key}>
-            {/* Step node */}
-            <div className="flex flex-col items-center gap-2 relative z-10">
+      <div className="flex items-start justify-between relative z-10 w-full">
+        {STAGES.map((stage, idx) => {
+          const isDone = !isRejected && idx <= activeIndex;
+          const isCurrent = !isRejected && idx === activeIndex;
+          const Icon = stage.icon;
+
+          return (
+            <div key={stage.key} className="flex flex-col items-center gap-2 flex-1 text-center">
               <div
                 className={`w-10 h-10 rounded-2xl flex items-center justify-center select-none transition-all duration-300 ${
                   isCurrent
-                    ? 'bg-gradient-to-tr from-indigo-600 to-indigo-500 text-white neu-flat shadow-lg shadow-indigo-500/30 scale-110 ring-4 ring-indigo-500/20'
+                    ? 'bg-indigo-600 text-white neu-flat shadow-lg shadow-indigo-500/30 scale-110 ring-4 ring-indigo-500/20'
                     : isDone
                     ? 'bg-emerald-500 text-white neu-sm'
-                    : 'neu-inset text-[var(--text-muted)]'
+                    : 'bg-[var(--bg-main)] neu-inset text-[var(--text-muted)]'
                 }`}
               >
-                <Icon className="w-5 h-5" />
+                <Icon className="w-4 h-4" />
               </div>
-              <span className={`text-xs font-bold tracking-tight ${isCurrent ? 'text-indigo-600 dark:text-indigo-400' : isDone ? 'text-[var(--text-primary)]' : 'text-[var(--text-muted)]'}`}>
+              <span className={`text-xs font-bold tracking-tight ${isCurrent ? 'text-indigo-600 dark:text-indigo-400 font-extrabold' : isDone ? 'text-[var(--text-primary)]' : 'text-[var(--text-muted)]'}`}>
                 {stage.label}
               </span>
             </div>
-
-            {/* Connecting bar */}
-            {idx < STAGES.length - 1 && (
-              <div className="flex-1 h-1.5 mx-2 rounded-full neu-inset overflow-hidden -mt-6">
-                <div
-                  className="h-full bg-emerald-500 transition-all duration-500"
-                  style={{ width: !isRejected && idx < activeIndex ? '100%' : '0%' }}
-                />
-              </div>
-            )}
-          </React.Fragment>
-        );
-      })}
+          );
+        })}
+      </div>
     </div>
   );
 };
