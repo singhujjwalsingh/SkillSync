@@ -1,7 +1,7 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "",
+  "description": "SkillSync Backend API for SIH 26044",
   "license": "ISC",
   "author": "",
   "type": "commonjs",
@@ -9,7 +9,8 @@
   "scripts": {
     "start": "node index.js",
     "dev": "node --watch index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "seed": "node scripts/seed.js",
+    "test": "node scripts/seed.js"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
