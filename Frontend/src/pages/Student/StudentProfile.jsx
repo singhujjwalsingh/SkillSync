@@ -6,8 +6,8 @@ import {
   Award,
   FileText,
   Globe,
-  Github,
-  Linkedin,
+  Code,
+  Link2,
   Plus,
   X,
   CheckCircle2,
@@ -454,7 +454,7 @@ const StudentProfile = () => {
               <NeuInput
                 label="GitHub Profile URL"
                 name="github_url"
-                icon={Github}
+                icon={Code}
                 value={formData.github_url}
                 onChange={handleChange}
                 placeholder="https://github.com/yourhandle"
@@ -463,7 +463,7 @@ const StudentProfile = () => {
               <NeuInput
                 label="LinkedIn Profile URL"
                 name="linkedin_url"
-                icon={Linkedin}
+                icon={Link2}
                 value={formData.linkedin_url}
                 onChange={handleChange}
                 placeholder="https://linkedin.com/in/yourhandle"
