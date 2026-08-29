@@ -22,4 +22,29 @@ module.exports = {
     findUserByEmail,
     findUserById,
     createUser,
+    getStudentProfile,
+    upsertStudentProfile
 };
+
+async function getStudentProfile(userId) {
+    const result = await query(
+        `SELECT u.id, u.name, u.email, u.role, sp.college, sp.bio, sp.phone, sp.resume_url
+     FROM users u
+     LEFT JOIN student_profiles sp ON sp.user_id = u.id
+     WHERE u.id = $1`,
+        [userId]
+    );
+    return result.rows[0];
+}
+
+async function upsertStudentProfile(userId, { college, bio, phone }) {
+    const result = await query(
+        `INSERT INTO student_profiles (user_id, college, bio, phone)
+     VALUES ($1, $2, $3, $4)
+     ON CONFLICT (user_id)
+     DO UPDATE SET college = $2, bio = $3, phone = $4, updated_at = CURRENT_TIMESTAMP
+     RETURNING *`,
+        [userId, college, bio, phone]
+    );
+    return result.rows[0];
+}

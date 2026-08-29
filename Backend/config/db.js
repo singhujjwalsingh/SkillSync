@@ -52,7 +52,7 @@ async function initDB() {
         await pool.query(createUsersTableQuery);
         console.log('Database tables initialized successfully');
     } catch (error) {
-        console.error('Error initializing database tables:', error.message);
+        console.error('Error initializing database tables FULL:', error);
     }
 }
 
