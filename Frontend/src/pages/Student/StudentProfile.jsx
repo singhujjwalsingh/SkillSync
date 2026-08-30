@@ -146,7 +146,7 @@ const StudentProfile = () => {
 
   return (
     <div className="relative z-10 min-h-screen py-8 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto flex flex-col gap-8 animate-slide-up">
-      
+
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
@@ -162,7 +162,7 @@ const StudentProfile = () => {
         </div>
 
         {formData.approval_status === 'approved' && (
-          <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold text-emerald-600 bg-emerald-500/10 border border-emerald-500/20 neu-sm">
+          <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold text-emerald-600 bg-emerald-500/10 border border-emerald-500/20 shadow-sm">
             <ShieldCheck className="w-4 h-4" /> TPO Approved Account
           </span>
         )}
@@ -190,11 +190,10 @@ const StudentProfile = () => {
               key={tab.id}
               type="button"
               onClick={() => setActiveTab(tab.id)}
-              className={`py-2.5 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition-all ${
-                active
-                  ? 'bg-indigo-600 text-white neu-sm shadow-md'
-                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-              }`}
+              className={`py-2.5 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition-all cursor-pointer ${active
+                  ? 'bg-indigo-600 text-white shadow-md shadow-indigo-500/25 ring-1 ring-indigo-500/30'
+                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-black/5 dark:hover:bg-white/5'
+                }`}
             >
               <Icon className="w-4 h-4" />
               <span>{tab.label}</span>
@@ -206,7 +205,7 @@ const StudentProfile = () => {
       {/* Wizard Form Card */}
       <form onSubmit={handleSubmit}>
         <NeuCard className="p-6 sm:p-10 flex flex-col gap-6">
-          
+
           {/* TAB 1: ACADEMIC DETAILS */}
           {activeTab === 'academic' && (
             <div className="flex flex-col gap-5 animate-scale-up">
@@ -393,7 +392,7 @@ const StudentProfile = () => {
 
               {/* Dropzone Card */}
               <div className="neu-inset p-8 rounded-3xl border-2 border-dashed border-[var(--border-subtle)] flex flex-col items-center justify-center gap-4 text-center">
-                <div className="w-16 h-16 rounded-2xl bg-indigo-600/10 text-indigo-600 flex items-center justify-center neu-sm">
+                <div className="w-16 h-16 rounded-2xl bg-indigo-600/10 text-indigo-600 flex items-center justify-center border border-indigo-500/20 shadow-sm">
                   <UploadCloud className="w-8 h-8" />
                 </div>
                 <div className="flex flex-col gap-1">

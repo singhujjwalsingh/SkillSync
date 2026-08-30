@@ -67,7 +67,7 @@ const NotificationDrawer = ({ isOpen, onClose }) => {
 
       {/* Drawer Panel */}
       <div className="relative z-10 w-full max-w-md bg-[var(--bg-main)] neu-flat h-full p-6 flex flex-col justify-between shadow-2xl animate-scale-up overflow-y-auto">
-        
+
         {/* Header */}
         <div className="flex flex-col gap-3 pb-4 border-b border-[var(--border-subtle)]">
           <div className="flex items-center justify-between">
@@ -114,11 +114,10 @@ const NotificationDrawer = ({ isOpen, onClose }) => {
             notifications.map(n => (
               <div
                 key={n.id}
-                className={`p-4 rounded-2xl transition-all flex flex-col gap-1.5 ${
-                  !n.is_read
+                className={`p-4 rounded-2xl transition-all flex flex-col gap-1.5 ${!n.is_read
                     ? 'neu-flat border-l-4 border-indigo-600 bg-indigo-500/5'
                     : 'neu-inset opacity-80'
-                }`}
+                  }`}
               >
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-bold text-[var(--text-primary)]">

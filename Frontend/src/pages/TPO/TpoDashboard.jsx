@@ -89,11 +89,11 @@ const TpoDashboard = () => {
 
   return (
     <div className="relative z-10 min-h-screen py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto flex flex-col gap-8 animate-slide-up">
-      
+
       {/* 1. HERO BANNER */}
       <NeuCard className="p-6 sm:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 bg-gradient-to-r from-purple-900/10 via-[var(--bg-main)] to-indigo-900/10">
         <div className="flex items-center gap-5">
-          <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-purple-600 text-white flex items-center justify-center neu-flat ring-2 ring-purple-500/20 shrink-0">
+          <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-purple-600 text-white flex items-center justify-center shadow-lg shadow-purple-600/30 ring-2 ring-purple-500/20 shrink-0">
             <GraduationCap className="w-10 h-10" />
           </div>
           <div className="flex flex-col gap-1">
@@ -156,7 +156,7 @@ const TpoDashboard = () => {
 
       {/* 3. PENDING STUDENT VERIFICATION QUEUE */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        
+
         {/* Pending Approvals */}
         <div className="lg:col-span-2 flex flex-col gap-6">
           <div className="flex items-center justify-between">
@@ -185,7 +185,7 @@ const TpoDashboard = () => {
               {pendingStudents.map(student => (
                 <NeuCard key={student.id} className="p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5">
                   <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-2xl bg-indigo-600/10 text-indigo-600 font-black text-base flex items-center justify-center neu-flat shrink-0">
+                    <div className="w-12 h-12 rounded-2xl bg-indigo-600/10 text-indigo-600 font-black text-base flex items-center justify-center border border-indigo-500/20 shadow-sm shrink-0">
                       {student.name ? student.name[0] : 'S'}
                     </div>
                     <div className="flex flex-col gap-1">

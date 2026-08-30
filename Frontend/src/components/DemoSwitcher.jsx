@@ -64,11 +64,10 @@ const DemoSwitcher = () => {
                   key={acc.role}
                   disabled={loading}
                   onClick={() => handleSwitch(acc)}
-                  className={`p-2.5 rounded-xl text-left text-xs font-bold flex items-center justify-between transition-all ${
-                    isActive
-                      ? 'neu-inset text-indigo-600 dark:text-indigo-400 font-extrabold'
-                      : 'neu-btn text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-                  }`}
+                  className={`p-2.5 rounded-xl text-left text-xs font-bold flex items-center justify-between transition-all ${isActive
+                    ? 'neu-inset text-indigo-600 dark:text-indigo-400 font-extrabold'
+                    : 'neu-btn text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                    }`}
                 >
                   <div className="flex items-center gap-2">
                     <div className={`w-5 h-5 rounded-lg text-white flex items-center justify-center ${acc.color}`}>

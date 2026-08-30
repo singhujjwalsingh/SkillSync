@@ -38,7 +38,7 @@ const MatchScoreIndicator = ({
 
   if (variant === 'badge') {
     return (
-      <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold border neu-flat ${badgeBg} ${className}`}>
+      <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold border shadow-xs ${badgeBg} ${className}`}>
         <Zap className="w-3.5 h-3.5" />
         {safeScore}% Match
       </span>

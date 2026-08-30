@@ -39,9 +39,9 @@ const StatusTimeline = ({
               <div
                 className={`w-8 h-8 rounded-full flex items-center justify-center select-none shrink-0 transition-all ${
                   isCurrent
-                    ? 'neu-flat text-white bg-indigo-600 ring-4 ring-indigo-500/20 scale-110'
+                    ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/30 ring-4 ring-indigo-500/20 scale-110'
                     : isDone
-                    ? 'bg-emerald-500 text-white neu-sm'
+                    ? 'bg-emerald-500 text-white shadow-md'
                     : 'neu-inset text-[var(--text-muted)] opacity-60'
                 }`}
               >
@@ -106,9 +106,9 @@ const StatusTimeline = ({
               <div
                 className={`w-10 h-10 rounded-2xl flex items-center justify-center select-none transition-all duration-300 ${
                   isCurrent
-                    ? 'bg-indigo-600 text-white neu-flat shadow-lg shadow-indigo-500/30 scale-110 ring-4 ring-indigo-500/20'
+                    ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/30 scale-110 ring-4 ring-indigo-500/20'
                     : isDone
-                    ? 'bg-emerald-500 text-white neu-sm'
+                    ? 'bg-emerald-500 text-white shadow-md'
                     : 'bg-[var(--bg-main)] neu-inset text-[var(--text-muted)]'
                 }`}
               >

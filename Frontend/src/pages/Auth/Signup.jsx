@@ -68,10 +68,10 @@ const Signup = () => {
   return (
     <div className="relative z-10 min-h-[90vh] flex items-center justify-center px-4 py-12">
       <NeuCard variant="lg" className="max-w-lg w-full p-8 flex flex-col gap-6">
-        
+
         {/* Header */}
         <div className="text-center flex flex-col items-center gap-2">
-          <div className="w-12 h-12 rounded-2xl bg-indigo-600 text-white flex items-center justify-center neu-flat">
+          <div className="w-12 h-12 rounded-2xl bg-indigo-600 text-white flex items-center justify-center shadow-lg shadow-indigo-500/30">
             <Sparkles className="w-6 h-6" />
           </div>
           <h2 className="text-2xl sm:text-3xl font-black text-[var(--text-primary)]">
@@ -96,11 +96,10 @@ const Signup = () => {
                   key={opt.role}
                   type="button"
                   onClick={() => setRole(opt.role)}
-                  className={`p-3 rounded-2xl text-center flex flex-col items-center gap-1.5 transition-all ${
-                    active
-                      ? 'neu-inset text-indigo-600 dark:text-indigo-400 font-extrabold ring-2 ring-indigo-500/40'
-                      : 'neu-btn text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-                  }`}
+                  className={`p-3 rounded-2xl text-center flex flex-col items-center gap-1.5 transition-all ${active
+                    ? 'neu-inset text-indigo-600 dark:text-indigo-400 font-extrabold ring-2 ring-indigo-500/40'
+                    : 'neu-btn text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                    }`}
                 >
                   <Icon className="w-5 h-5" />
                   <span className="text-xs font-bold">{opt.title}</span>
@@ -112,7 +111,7 @@ const Signup = () => {
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          
+
           {errorMsg && (
             <div className="p-3 text-xs text-rose-600 bg-rose-500/10 border border-rose-500/20 rounded-xl neu-inset font-medium">
               ⚠️ {errorMsg}

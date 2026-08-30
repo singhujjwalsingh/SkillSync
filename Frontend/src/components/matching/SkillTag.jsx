@@ -31,13 +31,13 @@ const SkillTag = ({
   let Icon = null;
 
   if (effectiveStatus === 'matched') {
-    styleClass = 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border-emerald-500/30 neu-sm shadow-sm';
+    styleClass = 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border-emerald-500/30 shadow-sm';
     Icon = Check;
   } else if (effectiveStatus === 'missing') {
-    styleClass = 'bg-amber-500/10 text-amber-700 dark:text-amber-300 border-amber-500/30 neu-sm shadow-sm';
+    styleClass = 'bg-amber-500/10 text-amber-700 dark:text-amber-300 border-amber-500/30 shadow-sm';
     Icon = Minus;
   } else if (isRequiredSkill) {
-    styleClass = 'bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border-indigo-500/30 neu-sm';
+    styleClass = 'bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border-indigo-500/30 shadow-sm';
     Icon = Star;
   }
 

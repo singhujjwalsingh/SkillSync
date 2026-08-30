@@ -64,7 +64,7 @@ const Navbar = () => {
     <>
       <header className="sticky top-4 z-40 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto w-full transition-all duration-300">
         <nav className="bg-white/90 backdrop-blur-2xl px-6 sm:px-8 py-3.5 flex items-center justify-between rounded-full border border-white/95 shadow-[0_10px_30px_rgba(0,0,0,0.06)]">
-          
+
           {/* Brand Logo */}
           <Link to="/" className="flex items-center gap-2.5 group shrink-0">
             <div className="w-8 h-8 rounded-xl bg-slate-950 text-white flex items-center justify-center font-black shadow-sm group-hover:scale-105 transition-transform">
@@ -83,11 +83,10 @@ const Navbar = () => {
                 <Link
                   key={link.label}
                   to={link.path}
-                  className={`text-xs font-bold transition-all relative py-1 ${
-                    isActive
-                      ? 'text-slate-950 font-black'
-                      : 'text-slate-500 hover:text-slate-950'
-                  }`}
+                  className={`text-xs font-bold transition-all relative py-1 ${isActive
+                    ? 'text-slate-950 font-black'
+                    : 'text-slate-500 hover:text-slate-950'
+                    }`}
                 >
                   {link.label}
                   {isActive && (
@@ -100,7 +99,7 @@ const Navbar = () => {
 
           {/* Right Controls */}
           <div className="flex items-center gap-3 shrink-0">
-            
+
             {/* Notification Bell */}
             {user && (
               <button

@@ -6,22 +6,22 @@
   --bg-card: rgba(255, 255, 255, 0.94);
   --bg-surface: #ffffff;
   --bg-inset: #f1f5f9;
-  
+
   --text-primary: #090e17;
   --text-secondary: #334155;
   --text-muted: #64748b;
-  
+
   --border-subtle: rgba(226, 232, 240, 0.9);
   --border-highlight: rgba(255, 255, 255, 1);
-  
+
   /* Diffused Luxury Soft Elevation */
   --neu-shadow-flat: 0 14px 35px -10px rgba(15, 23, 42, 0.06), 0 0 0 1px rgba(226, 232, 240, 0.85);
   --neu-shadow-sm: 0 6px 16px -4px rgba(15, 23, 42, 0.05), 0 0 0 1px rgba(226, 232, 240, 0.75);
   --neu-shadow-lg: 0 28px 60px -15px rgba(15, 23, 42, 0.08), 0 0 0 1px rgba(226, 232, 240, 0.9);
-  
+
   --neu-shadow-inset: inset 2px 2px 5px rgba(15, 23, 42, 0.04), inset -2px -2px 5px rgba(255, 255, 255, 0.9);
   --neu-shadow-inset-sm: inset 1px 1px 3px rgba(15, 23, 42, 0.04), inset -1px -1px 3px rgba(255, 255, 255, 0.9);
-  
+
   --neu-shadow-btn: 0 8px 20px -4px rgba(79, 70, 229, 0.25);
   --neu-shadow-btn-hover: 0 14px 28px -4px rgba(79, 70, 229, 0.35);
   --neu-shadow-btn-active: 0 4px 10px -2px rgba(79, 70, 229, 0.2);
@@ -34,17 +34,18 @@
   --neu-glow: 0 16px 36px -8px rgba(79, 70, 229, 0.28);
 }
 
-.dark, [data-theme="dark"] {
+.dark,
+[data-theme="dark"] {
   /* Executive Midnight Frost Palette (Dark Mode) */
   --bg-main: #090d16;
   --bg-card: rgba(15, 23, 42, 0.8);
   --bg-surface: #1e293b;
   --bg-inset: rgba(11, 17, 30, 0.9);
-  
+
   --text-primary: #f8fafc;
   --text-secondary: #94a3b8;
   --text-muted: #64748b;
-  
+
   --border-subtle: rgba(255, 255, 255, 0.08);
   --border-highlight: rgba(255, 255, 255, 0.14);
 
@@ -77,13 +78,21 @@
     transition: background-color 0.35s cubic-bezier(0.16, 1, 0.3, 1), color 0.35s ease;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: 'Outfit', 'Plus Jakarta Sans', sans-serif;
     letter-spacing: -0.03em;
     font-weight: 800;
   }
 
-  code, kbd, samp, pre {
+  code,
+  kbd,
+  samp,
+  pre {
     font-family: 'Space Grotesk', monospace;
   }
 }
@@ -119,6 +128,7 @@
     opacity: 0;
     transform: translateY(24px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -130,6 +140,7 @@
     opacity: 0;
     transform: scale(0.97);
   }
+
   to {
     opacity: 1;
     transform: scale(1);
@@ -253,14 +264,17 @@
   width: 7px;
   height: 7px;
 }
+
 ::-webkit-scrollbar-track {
   background: var(--bg-main);
 }
+
 ::-webkit-scrollbar-thumb {
   background: var(--text-muted);
   opacity: 0.4;
   border-radius: 9999px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   opacity: 0.8;
 }

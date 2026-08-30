@@ -105,7 +105,7 @@ const ApplicantsList = () => {
 
   return (
     <div className="relative z-10 min-h-screen py-8 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto flex flex-col gap-8 animate-slide-up">
-      
+
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
@@ -142,11 +142,10 @@ const ApplicantsList = () => {
               key={tab.id}
               type="button"
               onClick={() => setStatusFilter(tab.id)}
-              className={`py-2 px-2 rounded-xl text-xs font-bold transition-all text-center ${
-                active
-                  ? 'bg-teal-600 text-white neu-sm shadow-md'
-                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-              }`}
+              className={`py-2 px-2 rounded-xl text-xs font-bold transition-all text-center cursor-pointer ${active
+                  ? 'bg-teal-600 text-white shadow-md shadow-teal-500/25 ring-1 ring-teal-500/30'
+                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-black/5 dark:hover:bg-white/5'
+                }`}
             >
               {tab.label}
             </button>
@@ -178,7 +177,7 @@ const ApplicantsList = () => {
 
             return (
               <NeuCard key={app.id} className="p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-                
+
                 {/* Left: Student info & match rank */}
                 <div className="flex items-start gap-4 flex-1">
                   <div className="relative shrink-0">
@@ -187,7 +186,7 @@ const ApplicantsList = () => {
                       alt={student.name}
                       className="w-14 h-14 rounded-2xl object-cover neu-flat"
                     />
-                    <div className="absolute -top-2 -left-2 w-6 h-6 rounded-full bg-indigo-600 text-white font-black text-xs flex items-center justify-center neu-sm">
+                    <div className="absolute -top-2 -left-2 w-6 h-6 rounded-full bg-indigo-600 text-white font-black text-xs flex items-center justify-center shadow-md">
                       #{index + 1}
                     </div>
                   </div>
@@ -197,12 +196,11 @@ const ApplicantsList = () => {
                       <h3 className="text-base font-bold text-[var(--text-primary)]">
                         {student.name || app.student_name || 'Candidate'}
                       </h3>
-                      <span className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded-full ${
-                        app.status === 'offered' ? 'bg-emerald-500/20 text-emerald-600' :
-                        app.status === 'interview' ? 'bg-purple-500/20 text-purple-600' :
-                        app.status === 'shortlisted' ? 'bg-indigo-500/20 text-indigo-600' :
-                        'bg-slate-500/20 text-slate-600'
-                      }`}>
+                      <span className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded-full ${app.status === 'offered' ? 'bg-emerald-500/20 text-emerald-600' :
+                          app.status === 'interview' ? 'bg-purple-500/20 text-purple-600' :
+                            app.status === 'shortlisted' ? 'bg-indigo-500/20 text-indigo-600' :
+                              'bg-slate-500/20 text-slate-600'
+                        }`}>
                         {app.status}
                       </span>
                     </div>
@@ -280,11 +278,10 @@ const ApplicantsList = () => {
                     key={opt.id}
                     type="button"
                     onClick={() => setNewStatus(opt.id)}
-                    className={`p-3 rounded-2xl text-xs font-bold text-left transition-all ${
-                      newStatus === opt.id
+                    className={`p-3 rounded-2xl text-xs font-bold text-left transition-all ${newStatus === opt.id
                         ? 'neu-inset ring-2 ring-teal-500/40 font-extrabold ' + opt.color
                         : 'neu-btn text-[var(--text-secondary)]'
-                    }`}
+                      }`}
                   >
                     {opt.label}
                   </button>

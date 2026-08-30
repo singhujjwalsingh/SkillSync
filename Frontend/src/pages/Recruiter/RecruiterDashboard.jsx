@@ -61,7 +61,7 @@ const RecruiterDashboard = () => {
 
   return (
     <div className="relative z-10 min-h-screen py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto flex flex-col gap-8 animate-slide-up">
-      
+
       {/* 1. HERO BANNER */}
       <NeuCard className="p-6 sm:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 bg-gradient-to-r from-teal-900/10 via-[var(--bg-main)] to-indigo-900/10">
         <div className="flex items-center gap-5">

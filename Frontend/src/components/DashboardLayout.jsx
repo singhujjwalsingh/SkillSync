@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { 
-  LayoutDashboard, Award, Briefcase, User, BookOpen, 
+import {
+  LayoutDashboard, Award, Briefcase, User, BookOpen,
   ChevronRight, Sparkles, LogOut, Menu, X, Users
 } from 'lucide-react';
 
@@ -46,7 +46,7 @@ const DashboardLayout = ({ children }) => {
 
   return (
     <div className="flex min-h-[calc(100vh-64px)] bg-slate-950 text-slate-100">
-      
+
       {/* Mobile Toggle Button */}
       <div className="md:hidden fixed top-20 left-4 z-40">
         <button
@@ -58,7 +58,7 @@ const DashboardLayout = ({ children }) => {
       </div>
 
       {/* Sidebar Navigation */}
-      <aside 
+      <aside
         className={`bg-slate-900/40 border-r border-slate-900 transition-all duration-300 z-30
           ${collapsed ? 'w-20' : 'w-64'} 
           ${mobileOpen ? 'fixed inset-y-16 left-0 w-64 bg-slate-900' : 'hidden md:flex md:flex-col'}
@@ -66,7 +66,7 @@ const DashboardLayout = ({ children }) => {
       >
         <div className="flex flex-col h-full justify-between p-4 pt-8 md:pt-6">
           <div className="space-y-6">
-            
+
             {/* Header in sidebar */}
             <div className="flex items-center justify-between px-2">
               {!collapsed && (
@@ -75,7 +75,7 @@ const DashboardLayout = ({ children }) => {
                   <span className="text-sm font-semibold text-slate-200 truncate capitalize">{role} Hub</span>
                 </div>
               )}
-              <button 
+              <button
                 onClick={() => setCollapsed(!collapsed)}
                 className="hidden md:block p-1 hover:bg-slate-800 rounded-lg text-slate-400 hover:text-white transition-colors cursor-pointer"
               >
@@ -95,8 +95,8 @@ const DashboardLayout = ({ children }) => {
                     onClick={() => setMobileOpen(false)}
                     className={({ isActive }) => `
                       flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 group
-                      ${isActive 
-                        ? 'bg-purple-600/10 border border-purple-500/25 text-purple-400' 
+                      ${isActive
+                        ? 'bg-purple-600/10 border border-purple-500/25 text-purple-400'
                         : 'text-slate-400 hover:bg-slate-900 hover:text-slate-200 border border-transparent'}
                     `}
                   >
@@ -121,7 +121,7 @@ const DashboardLayout = ({ children }) => {
                 <div className="text-[10px] text-slate-500 font-mono truncate">{user?.email}</div>
               </div>
             )}
-            
+
             <button
               onClick={() => {
                 logout();
@@ -142,7 +142,7 @@ const DashboardLayout = ({ children }) => {
         {/* Background gradient flares to look high-end */}
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-br from-purple-500/5 to-transparent rounded-full blur-[120px] pointer-events-none -z-10" />
         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-gradient-to-tr from-indigo-500/5 to-transparent rounded-full blur-[100px] pointer-events-none -z-10" />
-        
+
         {children}
       </main>
 

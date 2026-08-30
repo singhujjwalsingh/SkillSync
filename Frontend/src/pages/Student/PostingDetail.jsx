@@ -128,7 +128,7 @@ const PostingDetail = () => {
 
   return (
     <div className="relative z-10 min-h-screen py-8 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto flex flex-col gap-8 animate-slide-up">
-      
+
       {/* Back Link */}
       <div>
         <Link to="/postings" className="inline-flex items-center gap-1.5 text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:underline">
@@ -200,7 +200,7 @@ const PostingDetail = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
-          
+
           {/* Circular Score Gauge */}
           <div className="flex flex-col items-center justify-center neu-inset p-6 rounded-3xl text-center gap-2">
             <MatchScoreIndicator score={score} size="lg" />
@@ -211,7 +211,7 @@ const PostingDetail = () => {
 
           {/* Matched vs Missing Skills */}
           <div className="md:col-span-2 flex flex-col gap-6">
-            
+
             {/* Matched Skills List */}
             <div className="flex flex-col gap-2">
               <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
@@ -255,7 +255,7 @@ const PostingDetail = () => {
 
       {/* Description & Perks */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        
+
         {/* Main Job Description */}
         <div className="md:col-span-2 flex flex-col gap-6">
           <NeuCard className="p-6 sm:p-8 flex flex-col gap-4">

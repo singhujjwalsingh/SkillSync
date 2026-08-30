@@ -92,10 +92,10 @@ const Login = () => {
   return (
     <div className="relative z-10 min-h-[85vh] flex items-center justify-center px-4 py-12">
       <NeuCard variant="lg" className="max-w-md w-full p-8 flex flex-col gap-6">
-        
+
         {/* Header */}
         <div className="text-center flex flex-col items-center gap-2">
-          <div className="w-12 h-12 rounded-2xl bg-indigo-600 text-white flex items-center justify-center neu-flat">
+          <div className="w-12 h-12 rounded-2xl bg-indigo-600 text-white flex items-center justify-center shadow-lg shadow-indigo-500/30">
             <Sparkles className="w-6 h-6" />
           </div>
           <h2 className="text-2xl sm:text-3xl font-black text-[var(--text-primary)]">
@@ -120,11 +120,10 @@ const Login = () => {
                   key={p.role}
                   type="button"
                   onClick={() => selectPersona(p)}
-                  className={`p-2 rounded-xl text-xs font-bold flex flex-col items-center gap-1 transition-all ${
-                    active
-                      ? 'bg-indigo-600 text-white neu-sm shadow-md'
-                      : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-                  }`}
+                  className={`p-2 rounded-xl text-xs font-bold flex flex-col items-center gap-1 transition-all cursor-pointer ${active
+                    ? 'bg-indigo-600 text-white shadow-md shadow-indigo-500/25 ring-1 ring-indigo-500/30'
+                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-black/5 dark:hover:bg-white/5'
+                    }`}
                 >
                   <Icon className="w-4 h-4" />
                   <span>{p.label}</span>
@@ -136,7 +135,7 @@ const Login = () => {
 
         {/* Login Form */}
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          
+
           {errorMsg && (
             <div className="p-3 text-xs text-rose-600 bg-rose-500/10 border border-rose-500/20 rounded-xl neu-inset font-medium">
               ⚠️ {errorMsg}

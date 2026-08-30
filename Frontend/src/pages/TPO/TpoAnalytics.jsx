@@ -87,7 +87,7 @@ const TpoAnalytics = () => {
 
   return (
     <div className="relative z-10 min-h-screen py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto flex flex-col gap-8 animate-slide-up">
-      
+
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
@@ -115,7 +115,7 @@ const TpoAnalytics = () => {
 
       {/* Grid: Branch-wise Placement & Skill Gap Trends */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        
+
         {/* Branch-wise Placement % */}
         <NeuCard className="p-6 sm:p-8 flex flex-col gap-5">
           <div className="flex items-center justify-between border-b border-[var(--border-subtle)] pb-3">
@@ -198,7 +198,7 @@ const TpoAnalytics = () => {
 
       {/* Grid: Placement Funnel & Monthly Hiring Trend */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        
+
         {/* Recruitment Funnel */}
         <NeuCard className="p-6 sm:p-8 flex flex-col gap-5">
           <div className="flex items-center justify-between border-b border-[var(--border-subtle)] pb-3">
@@ -249,12 +249,12 @@ const TpoAnalytics = () => {
               <AreaChart data={monthlyTrends} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                 <defs>
                   <linearGradient id="colorOffers" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#10B981" stopOpacity={0.8}/>
-                    <stop offset="95%" stopColor="#10B981" stopOpacity={0}/>
+                    <stop offset="5%" stopColor="#10B981" stopOpacity={0.8} />
+                    <stop offset="95%" stopColor="#10B981" stopOpacity={0} />
                   </linearGradient>
                   <linearGradient id="colorApps" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#4F46E5" stopOpacity={0.4}/>
-                    <stop offset="95%" stopColor="#4F46E5" stopOpacity={0}/>
+                    <stop offset="5%" stopColor="#4F46E5" stopOpacity={0.4} />
+                    <stop offset="95%" stopColor="#4F46E5" stopOpacity={0} />
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" opacity={0.15} />

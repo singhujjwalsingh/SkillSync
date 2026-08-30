@@ -83,7 +83,7 @@ const RecruiterProfile = () => {
 
   return (
     <div className="relative z-10 min-h-screen py-8 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto flex flex-col gap-8 animate-slide-up">
-      
+
       <div>
         <Link to="/dashboard" className="inline-flex items-center gap-1.5 text-xs font-bold text-teal-600 hover:underline mb-2">
           <ArrowLeft className="w-4 h-4" /> Back to Recruiter Dashboard
@@ -105,7 +105,7 @@ const RecruiterProfile = () => {
 
       <form onSubmit={handleSubmit}>
         <NeuCard className="p-6 sm:p-10 flex flex-col gap-6">
-          
+
           <div className="flex flex-col gap-4">
             <h2 className="text-base font-bold text-[var(--text-primary)] border-b border-[var(--border-subtle)] pb-2">
               Organization Branding

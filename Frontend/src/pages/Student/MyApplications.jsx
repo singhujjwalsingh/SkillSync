@@ -51,7 +51,7 @@ const MyApplications = () => {
 
   return (
     <div className="relative z-10 min-h-screen py-8 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto flex flex-col gap-8 animate-slide-up">
-      
+
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
@@ -87,11 +87,10 @@ const MyApplications = () => {
               key={tab.id}
               type="button"
               onClick={() => setActiveFilter(tab.id)}
-              className={`py-2 px-3 rounded-xl text-xs font-bold transition-all text-center ${
-                active
-                  ? 'bg-indigo-600 text-white neu-sm shadow-md'
-                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-              }`}
+              className={`py-2 px-3 rounded-xl text-xs font-bold transition-all text-center cursor-pointer ${active
+                  ? 'bg-indigo-600 text-white shadow-md shadow-indigo-500/25 ring-1 ring-indigo-500/30'
+                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-black/5 dark:hover:bg-white/5'
+                }`}
             >
               {tab.label}
             </button>
@@ -125,7 +124,7 @@ const MyApplications = () => {
 
             return (
               <NeuCard key={app.id} className="p-6 sm:p-8 flex flex-col gap-6">
-                
+
                 {/* Application Header */}
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-[var(--border-subtle)]">
                   <div className="flex items-center gap-4">

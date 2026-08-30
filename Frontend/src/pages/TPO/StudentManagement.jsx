@@ -93,7 +93,7 @@ const StudentManagement = () => {
 
   return (
     <div className="relative z-10 min-h-screen py-8 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto flex flex-col gap-8 animate-slide-up">
-      
+
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
@@ -175,7 +175,7 @@ const StudentManagement = () => {
 
             return (
               <NeuCard key={st.id} className="p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-5">
-                
+
                 <div className="flex items-start gap-4 flex-1">
                   <img
                     src={st.avatar_url || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80'}
@@ -187,11 +187,10 @@ const StudentManagement = () => {
                       <h3 className="text-base font-bold text-[var(--text-primary)]">
                         {st.name}
                       </h3>
-                      <span className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded-full ${
-                        isApproved ? 'bg-emerald-500/20 text-emerald-600' :
-                        isPending ? 'bg-amber-500/20 text-amber-600' :
-                        'bg-rose-500/20 text-rose-600'
-                      }`}>
+                      <span className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded-full ${isApproved ? 'bg-emerald-500/20 text-emerald-600' :
+                          isPending ? 'bg-amber-500/20 text-amber-600' :
+                            'bg-rose-500/20 text-rose-600'
+                        }`}>
                         {st.approval_status || 'approved'}
                       </span>
                     </div>

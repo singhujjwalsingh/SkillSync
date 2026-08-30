@@ -65,12 +65,12 @@ const HomePage = () => {
 
   return (
     <div className="relative min-h-screen py-8 sm:py-12 px-3 sm:px-6 lg:px-8 max-w-6xl mx-auto flex flex-col gap-12 select-none">
-      
+
       {/* ========================================================
           MAIN FLOATING WHITE SHEET CANVAS (EXACT MOCKUP)
           ======================================================== */}
       <div className="w-full bg-white/95 backdrop-blur-3xl rounded-[2.5rem] sm:rounded-[3.5rem] p-6 sm:p-12 lg:p-16 shadow-[0_30px_70px_rgba(0,0,0,0.06)] border border-white/95 flex flex-col gap-16 relative overflow-hidden">
-        
+
         {/* HERO TITLE & SUBTITLE */}
         <div className="text-center flex flex-col items-center gap-5 max-w-4xl mx-auto pt-2">
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-950 leading-[1.12]">
@@ -229,7 +229,7 @@ const HomePage = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            
+
             {/* Left: Research Opportunities */}
             <div className="p-6 rounded-3xl bg-slate-50/90 border border-slate-200/80 flex flex-col justify-between gap-6">
               <div className="flex flex-col gap-4">

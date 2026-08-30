@@ -129,7 +129,7 @@ const CreatePosting = () => {
 
   return (
     <div className="relative z-10 min-h-screen py-8 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto flex flex-col gap-8 animate-slide-up">
-      
+
       {/* Header */}
       <div>
         <Link to="/dashboard" className="inline-flex items-center gap-1.5 text-xs font-bold text-teal-600 hover:underline mb-2">
@@ -145,7 +145,7 @@ const CreatePosting = () => {
 
       <form onSubmit={handleSubmit}>
         <NeuCard className="p-6 sm:p-10 flex flex-col gap-6">
-          
+
           {errorMsg && (
             <div className="p-3 text-xs text-rose-600 bg-rose-500/10 border border-rose-500/20 rounded-xl neu-inset font-medium">
               ⚠️ {errorMsg}
@@ -242,19 +242,17 @@ const CreatePosting = () => {
                 requiredSkills.map((sk, idx) => (
                   <div
                     key={idx}
-                    className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-2xl border transition-all ${
-                      sk.required
+                    className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-2xl border transition-all ${sk.required
                         ? 'neu-flat text-indigo-600 dark:text-indigo-400 border-indigo-500/30 font-bold'
                         : 'neu-chip text-[var(--text-secondary)] font-medium'
-                    }`}
+                      }`}
                   >
                     <span>{sk.name}</span>
                     <button
                       type="button"
                       onClick={() => toggleSkillRequired(idx)}
-                      className={`text-[10px] uppercase font-extrabold px-1.5 py-0.5 rounded cursor-pointer ${
-                        sk.required ? 'bg-indigo-600 text-white' : 'bg-black/10 dark:bg-white/10'
-                      }`}
+                      className={`text-[10px] uppercase font-extrabold px-1.5 py-0.5 rounded cursor-pointer ${sk.required ? 'bg-indigo-600 text-white' : 'bg-black/10 dark:bg-white/10'
+                        }`}
                       title="Click to toggle required vs optional"
                     >
                       {sk.required ? '★ Core (1.5x)' : 'Optional (1.0x)'}

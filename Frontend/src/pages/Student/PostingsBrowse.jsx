@@ -71,7 +71,7 @@ const PostingsBrowse = () => {
 
   return (
     <div className="relative z-10 min-h-screen py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto flex flex-col gap-8 animate-slide-up">
-      
+
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
@@ -96,7 +96,7 @@ const PostingsBrowse = () => {
       {/* Filter & Search Bar */}
       <NeuCard className="p-6 flex flex-col gap-5">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          
+
           {/* Search Input */}
           <div className="md:col-span-2 relative flex items-center">
             <Search className="absolute left-3.5 w-4 h-4 text-[var(--text-muted)]" />
@@ -187,7 +187,7 @@ const PostingsBrowse = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {filtered.map(posting => (
             <NeuCard key={posting.id} hover className="p-6 flex flex-col justify-between gap-5 group">
-              
+
               <div className="flex flex-col gap-4">
                 {/* Header with Logo & Match Score */}
                 <div className="flex items-start justify-between gap-4">

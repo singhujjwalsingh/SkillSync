@@ -77,7 +77,7 @@ const ForgotPassword = () => {
       <NeuCard variant="lg" className="max-w-md w-full p-8 flex flex-col gap-6">
         
         <div className="text-center flex flex-col items-center gap-2">
-          <div className="w-12 h-12 rounded-2xl bg-indigo-600 text-white flex items-center justify-center neu-flat">
+          <div className="w-12 h-12 rounded-2xl bg-indigo-600 text-white flex items-center justify-center shadow-lg shadow-indigo-500/30">
             <KeyRound className="w-6 h-6" />
           </div>
           <h2 className="text-2xl sm:text-3xl font-black text-[var(--text-primary)]">
@@ -166,7 +166,7 @@ const ForgotPassword = () => {
 
         {step === 3 && (
           <div className="flex flex-col items-center gap-4 text-center">
-            <div className="w-12 h-12 rounded-full bg-emerald-500 text-white flex items-center justify-center neu-flat">
+            <div className="w-12 h-12 rounded-full bg-emerald-500 text-white flex items-center justify-center shadow-lg shadow-emerald-500/30">
               <CheckCircle2 className="w-6 h-6" />
             </div>
             <p className="text-sm text-[var(--text-secondary)]">

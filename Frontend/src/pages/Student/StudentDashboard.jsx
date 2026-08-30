@@ -73,7 +73,7 @@ const StudentDashboard = () => {
 
   return (
     <div className="relative z-10 min-h-screen py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto flex flex-col gap-8 animate-slide-up">
-      
+
       {/* 1. WELCOME HERO CARD */}
       <NeuCard className="p-6 sm:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 bg-gradient-to-r from-indigo-900/10 via-[var(--bg-main)] to-teal-900/10">
         <div className="flex items-center gap-5">
@@ -154,7 +154,7 @@ const StudentDashboard = () => {
 
       {/* 3. MAIN DASHBOARD CONTENT GRID */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        
+
         {/* Left 2 Cols: Recommended Postings by Match Score */}
         <div className="lg:col-span-2 flex flex-col gap-6">
           <div className="flex items-center justify-between">
@@ -184,7 +184,7 @@ const StudentDashboard = () => {
             <div className="flex flex-col gap-4">
               {postings.slice(0, 4).map(posting => (
                 <NeuCard key={posting.id} hover className="p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 group">
-                  
+
                   <div className="flex items-start gap-4 flex-1">
                     <img
                       src={posting.company_logo || 'https://images.unsplash.com/photo-1551434678-e076c223a692?w=150&auto=format&fit=crop&q=80'}
@@ -239,7 +239,7 @@ const StudentDashboard = () => {
 
         {/* Right Col: Skill Profile Widget & Applications Status */}
         <div className="flex flex-col gap-6">
-          
+
           {/* Skill Profile Card */}
           <NeuCard className="p-6 flex flex-col gap-4">
             <div className="flex items-center justify-between pb-2 border-b border-[var(--border-subtle)]">
@@ -251,7 +251,7 @@ const StudentDashboard = () => {
                 Edit
               </Link>
             </div>
-            
+
             <div className="flex flex-wrap gap-1.5">
               {studentSkills.map(sk => (
                 <SkillTag key={sk} skill={sk} size="sm" />
@@ -292,12 +292,11 @@ const StudentDashboard = () => {
                         {app.posting?.company_name || 'Nexus Cloud'}
                       </span>
                     </div>
-                    <span className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded-full ${
-                      app.status === 'offered' ? 'bg-emerald-500/20 text-emerald-600' :
-                      app.status === 'interview' ? 'bg-purple-500/20 text-purple-600' :
-                      app.status === 'shortlisted' ? 'bg-indigo-500/20 text-indigo-600' :
-                      'bg-slate-500/20 text-slate-600'
-                    }`}>
+                    <span className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded-full ${app.status === 'offered' ? 'bg-emerald-500/20 text-emerald-600' :
+                        app.status === 'interview' ? 'bg-purple-500/20 text-purple-600' :
+                          app.status === 'shortlisted' ? 'bg-indigo-500/20 text-indigo-600' :
+                            'bg-slate-500/20 text-slate-600'
+                      }`}>
                       {app.status}
                     </span>
                   </div>
