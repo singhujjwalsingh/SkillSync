@@ -1,34 +1,85 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { 
-  Lock, 
-  Mail, 
-  Eye, 
-  EyeOff, 
-  ArrowRight, 
-  Layers
+import {
+  Lock,
+  Mail,
+  Eye,
+  EyeOff,
+  ArrowRight,
+  Sparkles,
+  Award,
+  Briefcase,
+  GraduationCap
 } from 'lucide-react';
+import NeuCard from '../../components/common/NeuCard';
+import NeuButton from '../../components/common/NeuButton';
+
+const DEMO_PERSONAS = [
+  {
+    role: 'student',
+    label: 'Student',
+    email: 'student@skillsync.edu',
+    password: 'password123',
+    icon: Award,
+    desc: 'Aarav Sharma (CSE)'
+  },
+  {
+    role: 'recruiter',
+    label: 'Recruiter',
+    email: 'recruiter@skillsync.io',
+    password: 'password123',
+    icon: Briefcase,
+    desc: 'Nexus Cloud Tech'
+  },
+  {
+    role: 'college_tpo',
+    label: 'College TPO',
+    email: 'tpo@skillsync.edu',
+    password: 'password123',
+    icon: GraduationCap,
+    desc: 'NIT Delhi Admin'
+  }
+];
 
 const Login = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('student@skillsync.edu');
+  const [password, setPassword] = useState('password123');
+  const [selectedRole, setSelectedRole] = useState('student');
   const [showPassword, setShowPassword] = useState(false);
-  const [rememberMe, setRememberMe] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const roleParam = params.get('role');
+    if (roleParam) {
+      const matched = DEMO_PERSONAS.find(p => p.role === roleParam || (roleParam === 'industry' && p.role === 'recruiter') || (roleParam === 'institution' && p.role === 'college_tpo'));
+      if (matched) {
+        setSelectedRole(matched.role);
+        setEmail(matched.email);
+        setPassword(matched.password);
+      }
+    }
+  }, [location.search]);
+
+  const selectPersona = (persona) => {
+    setSelectedRole(persona.role);
+    setEmail(persona.email);
+    setPassword(persona.password);
+    setErrorMsg('');
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMsg('');
     setIsLoading(true);
 
-    // Backend login does not require a role to authenticate.
-    // Defaulting role argument to 'student' (will be overridden by backend response role on success).
-    const result = await login(email, password, 'student');
+    const result = await login(email, password, selectedRole);
     setIsLoading(false);
 
     if (result.success) {
@@ -39,34 +90,63 @@ const Login = () => {
   };
 
   return (
-    <div className="relative z-10 min-h-[80vh] flex items-center justify-center px-4 sm:px-6 lg:px-8 py-10">
-      <div className="max-w-md w-full neu-flat-lg p-6 sm:p-10 space-y-6 relative">
-        
-        {/* Header Branding */}
-        <div className="text-center space-y-2">
-          <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-gradient-to-tr from-indigo-500 to-purple-500 text-white shadow-lg shadow-indigo-500/20 mb-1">
-            <Layers className="w-6 h-6" />
+    <div className="relative z-10 min-h-[85vh] flex items-center justify-center px-4 py-12">
+      <NeuCard variant="lg" className="max-w-md w-full p-8 flex flex-col gap-6">
+
+        {/* Header */}
+        <div className="text-center flex flex-col items-center gap-2">
+          <div className="w-12 h-12 rounded-2xl bg-indigo-600 text-white flex items-center justify-center shadow-lg shadow-indigo-500/30">
+            <Sparkles className="w-6 h-6" />
           </div>
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-[var(--text-primary)] tracking-tight">
-            Sign In
+          <h2 className="text-2xl sm:text-3xl font-black text-[var(--text-primary)]">
+            Welcome Back
           </h2>
-          <p className="text-xs sm:text-sm text-[var(--text-secondary)]">
-            Enter your credentials to access your SkillSync account
+          <p className="text-xs text-[var(--text-secondary)]">
+            Sign in to your SkillSync collaborative portal
           </p>
         </div>
 
+        {/* 1-Click Demo Switcher Tabs */}
+        <div className="flex flex-col gap-2">
+          <label className="text-[11px] font-bold uppercase tracking-wider text-[var(--text-muted)] text-center">
+            ⚡ 1-Click Demo Quick Login
+          </label>
+          <div className="grid grid-cols-3 gap-2 neu-inset p-1.5 rounded-2xl">
+            {DEMO_PERSONAS.map(p => {
+              const active = selectedRole === p.role;
+              const Icon = p.icon;
+              return (
+                <button
+                  key={p.role}
+                  type="button"
+                  onClick={() => selectPersona(p)}
+                  className={`p-2 rounded-xl text-xs font-bold flex flex-col items-center gap-1 transition-all cursor-pointer ${active
+                    ? 'bg-indigo-600 text-white shadow-md shadow-indigo-500/25 ring-1 ring-indigo-500/30'
+                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-black/5 dark:hover:bg-white/5'
+                    }`}
+                >
+                  <Icon className="w-4 h-4" />
+                  <span>{p.label}</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
         {/* Login Form */}
-        <form onSubmit={handleSubmit} className="space-y-4 pt-2">
-          
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+
           {errorMsg && (
-            <div className="neu-inset-sm p-3 text-xs text-rose-500 font-medium rounded-xl border border-rose-500/20 bg-rose-500/10 animate-in fade-in">
+            <div className="p-3 text-xs text-rose-600 bg-rose-500/10 border border-rose-500/20 rounded-xl neu-inset font-medium">
               ⚠️ {errorMsg}
             </div>
           )}
 
-          {/* Email Field */}
-          <div className="space-y-1">
-            <label className="text-xs font-semibold text-[var(--text-secondary)]">Email Address</label>
+          {/* Email */}
+          <div className="flex flex-col gap-1">
+            <label className="text-xs font-bold uppercase tracking-wider text-[var(--text-secondary)]">
+              Email Address
+            </label>
             <div className="relative flex items-center">
               <Mail className="absolute left-3.5 w-4 h-4 text-[var(--text-muted)]" />
               <input
@@ -74,19 +154,21 @@ const Login = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="neu-input pl-10"
-                placeholder="name@organization.com"
+                className="neu-input w-full py-2.5 pl-10 pr-4 text-sm text-[var(--text-primary)] rounded-xl outline-none"
+                placeholder="name@skillsync.edu"
               />
             </div>
           </div>
 
-          {/* Password Field */}
-          <div className="space-y-1">
+          {/* Password */}
+          <div className="flex flex-col gap-1">
             <div className="flex items-center justify-between">
-              <label className="text-xs font-semibold text-[var(--text-secondary)]">Password</label>
-              <a href="#forgot" onClick={(e) => { e.preventDefault(); alert("Please contact support to reset your password."); }} className="text-[11px] text-indigo-500 hover:underline">
+              <label className="text-xs font-bold uppercase tracking-wider text-[var(--text-secondary)]">
+                Password
+              </label>
+              <Link to="/forgot-password" className="text-xs text-indigo-500 hover:underline">
                 Forgot password?
-              </a>
+              </Link>
             </div>
             <div className="relative flex items-center">
               <Lock className="absolute left-3.5 w-4 h-4 text-[var(--text-muted)]" />
@@ -95,7 +177,7 @@ const Login = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="neu-input pl-10 pr-10"
+                className="neu-input w-full py-2.5 pl-10 pr-10 text-sm text-[var(--text-primary)] rounded-xl outline-none"
                 placeholder="••••••••"
               />
               <button
@@ -108,49 +190,26 @@ const Login = () => {
             </div>
           </div>
 
-          {/* Remember Me Checkbox */}
-          <div className="flex items-center justify-between text-xs text-[var(--text-secondary)]">
-            <label className="flex items-center gap-2 cursor-pointer select-none">
-              <input
-                type="checkbox"
-                checked={rememberMe}
-                onChange={(e) => setRememberMe(e.target.checked)}
-                className="rounded accent-indigo-500 cursor-pointer"
-              />
-              <span>Remember this device</span>
-            </label>
-          </div>
-
-          {/* Submit Button */}
-          <button
+          <NeuButton
             type="submit"
-            disabled={isLoading}
-            className="neu-btn-primary w-full py-3 text-sm font-semibold shadow-lg"
+            size="lg"
+            loading={isLoading}
+            icon={ArrowRight}
+            className="w-full font-bold mt-2"
           >
-            {isLoading ? (
-              <span className="flex items-center gap-2 justify-center">
-                <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                Authenticating...
-              </span>
-            ) : (
-              <span className="flex items-center justify-center gap-2">
-                <span>Sign In</span>
-                <ArrowRight className="w-4 h-4" />
-              </span>
-            )}
-          </button>
-
+            Sign In to {selectedRole === 'student' ? 'Student Portal' : selectedRole === 'recruiter' ? 'Recruiter Hub' : 'TPO Console'}
+          </NeuButton>
         </form>
 
-        {/* Signup Redirect */}
-        <div className="text-center pt-2 text-xs text-[var(--text-secondary)]">
-          Don't have a SkillSync account?{' '}
-          <Link to="/signup" className="text-indigo-500 font-bold hover:underline">
-            Create an Account
+        {/* Footer Link */}
+        <div className="text-center text-xs text-[var(--text-secondary)]">
+          Don't have an account?{' '}
+          <Link to="/signup" className="text-indigo-600 dark:text-indigo-400 font-bold hover:underline">
+            Register New Account
           </Link>
         </div>
 
-      </div>
+      </NeuCard>
     </div>
   );
 };

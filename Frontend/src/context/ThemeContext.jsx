@@ -11,59 +11,57 @@ export const useTheme = () => {
 };
 
 export const ThemeProvider = ({ children }) => {
-  const [theme, setThemeState] = useState(() => {
-    return localStorage.getItem('skillsync_theme_pref') || 'auto';
-  });
-
-  const [effectiveTheme, setEffectiveTheme] = useState(() => {
-    if (typeof window === 'undefined') return 'dark';
-    const saved = localStorage.getItem('skillsync_theme_pref') || 'auto';
-    if (saved === 'auto') {
-      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    }
-    return saved;
-  });
+  const [theme, setThemeState] = useState('light');
+  const [effectiveTheme, setEffectiveTheme] = useState('light');
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    // Enforce light mode on initial load unless user explicitly changes it
+    const saved = localStorage.getItem('skillsync_theme_pref');
+    const initialTheme = saved === 'dark' ? 'dark' : 'light';
+    setThemeState(initialTheme);
+    setEffectiveTheme(initialTheme);
 
-    const updateEffectiveTheme = () => {
-      let resolved = theme;
-      if (theme === 'auto') {
-        resolved = mediaQuery.matches ? 'dark' : 'light';
-      }
-      setEffectiveTheme(resolved);
-
-      const root = document.documentElement;
-      root.setAttribute('data-theme', resolved);
-      if (resolved === 'dark') {
-        root.classList.add('dark');
-        root.classList.remove('light');
-      } else {
-        root.classList.add('light');
-        root.classList.remove('dark');
-      }
-    };
-
-    updateEffectiveTheme();
-
-    const handler = () => {
-      if (theme === 'auto') {
-        updateEffectiveTheme();
-      }
-    };
-
-    mediaQuery.addEventListener('change', handler);
-    return () => mediaQuery.removeEventListener('change', handler);
-  }, [theme]);
+    const root = document.documentElement;
+    root.setAttribute('data-theme', initialTheme);
+    if (initialTheme === 'dark') {
+      root.classList.add('dark');
+      root.classList.remove('light');
+    } else {
+      root.classList.add('light');
+      root.classList.remove('dark');
+    }
+  }, []);
 
   const setTheme = (newTheme) => {
     setThemeState(newTheme);
+    setEffectiveTheme(newTheme);
     localStorage.setItem('skillsync_theme_pref', newTheme);
+    const root = document.documentElement;
+    root.setAttribute('data-theme', newTheme);
+    if (newTheme === 'dark') {
+      root.classList.add('dark');
+      root.classList.remove('light');
+    } else {
+      root.classList.add('light');
+      root.classList.remove('dark');
+    }
+  };
+
+  const toggleTheme = () => {
+    const next = theme === 'dark' ? 'light' : 'dark';
+    setTheme(next);
   };
 
   return (
-    <ThemeContext.Provider value={{ theme, effectiveTheme, setTheme }}>
+    <ThemeContext.Provider
+      value={{
+        theme,
+        effectiveTheme,
+        setTheme,
+        toggleTheme,
+        isDark: theme === 'dark',
+      }}
+    >
       {children}
     </ThemeContext.Provider>
   );
